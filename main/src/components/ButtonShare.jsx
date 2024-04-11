@@ -1,9 +1,9 @@
 import styled from 'styled-components'
 
 const URL = {
-  LINK: '../../icons/Link.png',
+  LINK: '../../icons/link.svg',
   KAKAO: '../../icons/kakaotalk.svg',
-  FACEBOOK: '../../icons/facebook.png',
+  FACEBOOK: '../../icons/facebook.svg',
 }
 const Container = styled.div`
   display: flex;
@@ -12,13 +12,14 @@ const Container = styled.div`
   gap: 0.75rem;
 `
 const Button = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
   width: 40px;
   height: 40px;
   border-radius: 200px;
   background-color: var(--brown40);
+  background-image: url(${(props) => props.icon});
+  background-size: 18px;
+  background-position: center;
+  background-repeat: no-repeat;
 `
 
 const ButtonKakao = styled(Button)`
@@ -29,22 +30,12 @@ const ButtonFacebook = styled(Button)`
   background-color: var(--blue50);
 `
 
-const Icon = styled.img`
-  width: 18px;
-  height: 18px;
-`
 function ButtonShare() {
   return (
     <Container>
-      <Button>
-        <Icon src={URL.LINK} />
-      </Button>
-      <ButtonKakao>
-        <Icon src={URL.KAKAO} />
-      </ButtonKakao>
-      <ButtonFacebook>
-        <Icon src={URL.FACEBOOK} />
-      </ButtonFacebook>
+      <Button icon={URL.LINK} />
+      <ButtonKakao icon={URL.KAKAO} />
+      <ButtonFacebook icon={URL.FACEBOOK} />
     </Container>
   )
 }

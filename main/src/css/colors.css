@@ -1,0 +1,18 @@
+:root {
+  --grayScale10: #ffffff;
+  --grayScale20: #f9f9f9;
+  --grayScale30: #cfcfcf;
+  --grayScale40: #818181;
+  --grayScale50: #515151;
+  --grayScale60: #000000;
+
+  --brown10: #f5f1ee;
+  --brown20: #e4d5c9;
+  --brown30: #c7bbb5;
+  --brown40: #542f1a;
+  --brown50: #341909;
+
+  --blue50: #1877f2;
+  --yellow50: #fee500;
+  --red50: #b93333;
+}

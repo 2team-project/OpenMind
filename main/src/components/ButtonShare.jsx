@@ -10,6 +10,8 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   gap: 0.75rem;
+  width: 9rem;
+  height: 2.5rem;
 `
 const Button = styled.button`
   width: 40px;

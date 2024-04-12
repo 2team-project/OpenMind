@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import media, { size } from '../utils/media'
+import { useState } from 'react'
 
 const Button = styled.button`
   width: 16rem;
@@ -27,7 +28,8 @@ const Button = styled.button`
     width: 21rem;
   `}
 `
-function ButtonQuestion() {
-  return <Button>질문 받기</Button>
+
+function ButtonQuestion({ onClick }) {
+  return <Button onClick={onClick}>질문 받기</Button>
 }
 export default ButtonQuestion

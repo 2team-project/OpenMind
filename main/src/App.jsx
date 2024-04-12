@@ -1,9 +1,10 @@
 import './global.css'
+import Index from './pages/home/Index'
 
 function App() {
   return (
     <>
-      <div>openMind</div>
+      <Index></Index>
     </>
   )
 }

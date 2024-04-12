@@ -33,11 +33,23 @@ const Input = styled.input`
   `}
 `
 
-function InputFeild() {
+function InputFeild({ onValueChange }) {
+  const [value, setValue] = useState('')
+
+  const handleChange = (event) => {
+    const newValue = event.target.value
+    setValue(newValue)
+    onValueChange(newValue)
+  }
+
   return (
     <Container>
       <PersonIcon src="../../icons/person.svg" alt="사람 아이콘" />
-      <Input placeholder="이름을 입력하세요" />
+      <Input
+        placeholder="이름을 입력하세요"
+        value={value}
+        onChange={handleChange}
+      />
     </Container>
   )
 }

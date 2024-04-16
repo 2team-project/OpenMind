@@ -1,9 +1,23 @@
 import React from 'react';
-import { useFormInput } from './stateUtils';
-import { createAnswer } from './apiUtils';
+import { useFormInput } from '../../utils/stateUtils';
+import { createAnswer } from '../../utils/apiUtils';
 
-function AnswerPage({ questionId }) {
+function AnswerPage({ team, questionId }) {
+  const [question, setQuestion] = useState(null);
   const answerInput = useFormInput('');
+
+  useEffect(() => {
+    const loadQuestion = async () => {
+      try {
+        const data = await fetchQuestion(team, questionId);
+        setQuestion(data);
+      } catch (error) {
+        console.error('Error fetching question:', error);
+      }
+    };
+
+    loadQuestion();
+  }, [team, questionId]);
 
   // 답변 제출 함수
   const handleSubmitAnswer = async () => {
@@ -24,14 +38,15 @@ function AnswerPage({ questionId }) {
 
   return (
     <div className="answer-container">
-      <div className="question-header">
-        <span className="question-title">질문: 어떤 것을 좋아하시나요?</span>
-        <div className="question-actions">
-          {/* 액션 버튼들이 위치할 곳 (수정, 삭제 등) */}
-        </div>
-      </div>
-      <textarea {...answerInput} className="answer-input" placeholder="여기에 답변을 작성해주세요..." />
-      <button onClick={handleSubmitAnswer} className="submit-answer">답변하기</button>
+      {question && (
+        <>
+          <div className="question-header">
+            <span className="question-title">{question.content}</span>
+          </div>
+          <textarea {...answerInput} placeholder="답변을 입력해주세요" />
+          <button onClick={() => {}}>Submit Answer</button>
+        </>
+      )}
     </div>
   );
 }

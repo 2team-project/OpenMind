@@ -17,6 +17,15 @@ const handleResponse = async (response) => {
   return response.json();
 };
 
+// 질문을 조회하는 API 함수
+export const fetchQuestion = async (team, questionId) => {
+  const response = await fetch(`https://openmind-api.vercel.app/${team}/questions/${questionId}/`, {
+    method: 'GET',
+    headers: getHeaders(),
+  });
+  return handleApiError(response);
+};
+
 // 질문에 대한 답변을 생성하는 API 함수
 export const createAnswer = async (questionId, content, isRejected) => {
   const response = await fetch(`${BASE_URL}/questions/${questionId}/answers/`, {

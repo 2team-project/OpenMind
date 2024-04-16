@@ -15,6 +15,7 @@ module.exports = {
   rules: {
     'react/jsx-no-target-blank': 'off',
     'react/prop-types': 'off',
+    'react/no-underscore-dangle': 'allow',
     'react-refresh/only-export-components': [
       'warn',
       { allowConstantExport: true },

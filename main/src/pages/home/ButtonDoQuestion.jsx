@@ -26,7 +26,11 @@ const Button = styled.button`
   ${media(size.tablet)`
     width: 10rem;
     height: 3rem;
+    margin-top:2rem;
     font-size:1rem;
+    position: fixed;
+    right:5%;
+    top:0;
   `}
 `
 function ButtonDoQuestion() {

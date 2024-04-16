@@ -33,28 +33,30 @@ const Logo = styled.a`
   ${media(size.tablet)`
     width: 28rem;
     height: 11.25rem;
+    margin-top: 10rem;
   `}
 `
 
 const Footer = styled.div`
   width: 100%;
-  height: 329px;
-  background-image: url('../../icons/backgroundImg.svg');
+  height: 239px;
+  background-image: url('../../images/backgroundImg_main.png');
   background-size: contain; /* 이미지를 가득 채우도록 설정 */
   background-position: center;
   background-repeat: no-repeat;
+  background-color: var(--grayScale20); /* 배경색 통일 */
 
   ${media(size.tablet)`
     height: 401px;
+    background-image: url('../../images/backgroundImg_T.png');
+  `}
+
+  ${media(size.desktop)`
+    height: 432px;
+    background-image: url('../../images/backgroundImg_P.png');
   `}
 `
-
-const BackgroundImg = styled.img`
-  width: 100%;
-  height: auto;
-  object-fit: cover; /* 이미지를 비율을 유지하며 채우도록 설정 */
-`
-function Index() {
+function HomePage() {
   return (
     <Container>
       <Hero>
@@ -62,11 +64,9 @@ function Index() {
         <ButtonDoQuestion />
       </Hero>
       <LoginForm />
-      <Footer>
-        {/* <BackgroundImg src="../../icons/backgroundImg.svg" /> */}
-      </Footer>
+      <Footer />
     </Container>
   )
 }
 
-export default Index
+export default HomePage

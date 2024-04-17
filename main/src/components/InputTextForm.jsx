@@ -1,15 +1,15 @@
 import { useState } from 'react'
 import styled from 'styled-components'
+
 const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 30rem;
-  margin: 0.2rem;
+  flex-grow: 1; /* 남은 공간을 모두 차지 */
 `
 const TextArea = styled.textarea`
-  width: 100%;
-  height: 100%;
+  flex-grow: 1;
+  min-height: 11.25rem;
   background-color: var(--grayScale20);
   resize: none;
   border-radius: 8px;

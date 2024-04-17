@@ -15,7 +15,7 @@ const StyledImg = styled.img`
 function ModalSecondline() {
   return (
     <StyledDiv>
-      to.
+      To.
       <StyledImg src={temporaryProfile} /> 아초는고양이
     </StyledDiv>
   )

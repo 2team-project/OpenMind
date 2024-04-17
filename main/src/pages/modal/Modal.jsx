@@ -32,7 +32,6 @@ const ModalBox = styled.div`
   ${media(size.tablet)`
     width: 38.25rem;
     height: 28.375rem;
-    margin-bottom: 2rem;
   `}
 `
 const Margin = styled.div`
@@ -50,7 +49,7 @@ function Modal({ onClose }) {
         <Margin />
         <InputTextForm
           placeholder={'질문을 입력해주세요'}
-          buttonText="답변 완료"
+          buttonText="질문 보내기"
         />
       </ModalBox>
     </ModalPage>

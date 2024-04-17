@@ -18,23 +18,39 @@ const handleResponse = async (response) => {
 };
 
 // 질문을 조회하는 API 함수
-export const fetchQuestion = async (team, questionId) => {
-  const response = await fetch(`https://openmind-api.vercel.app/${team}/questions/${questionId}/`, {
+export const fetchQuestion = async (questionId) => {
+    const url = `${BASE_URL}/questions/${questionId}/`;
+    const response = await fetch(url, {
     method: 'GET',
-    headers: getHeaders(),
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
-  return handleApiError(response);
+  if (!response.ok) {
+    throw new Error('Network response was not ok.');
+  }
+  return response.json();
 };
+
 
 // 질문에 대한 답변을 생성하는 API 함수
 export const createAnswer = async (questionId, content, isRejected) => {
-  const response = await fetch(`${BASE_URL}/questions/${questionId}/answers/`, {
+  const url = `${BASE_URL}/questions/${questionId}/answers/`;
+  const response = await fetch(url, {
     method: 'POST',
     headers: getHeaders(),
     body: JSON.stringify({ content, isRejected }),
   });
+
+  const data = await response.json();
+
+  console.log('HTTP Status:', response.status); 
+  console.log('Response Headers:', Array.from(response.headers.entries()));
+  console.log('Response Body:', data);
+
   return handleApiError(response);
 };
+
 
 // 답변을 조회하는 API 함수
 export const getAnswer = async (answerId) => {

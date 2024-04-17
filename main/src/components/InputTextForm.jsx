@@ -4,11 +4,11 @@ const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 30rem;
   margin: 0.2rem;
 `
 const TextArea = styled.textarea`
   width: 100%;
+  min-height: 30rem;
   height: 100%;
   background-color: var(--grayScale20);
   resize: none;

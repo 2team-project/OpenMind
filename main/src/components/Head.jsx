@@ -1,5 +1,3 @@
-// Head.jsx
-
 import { useState, useEffect } from 'react'
 import CardList from './CardList'
 import { getCards } from '../utils/getCard'
@@ -9,7 +7,7 @@ import * as S from './styled'
 
 function Head() {
   const [items, setItems] = useState([])
-  const [limit, setLimit] = useState(6)
+  const [limit, setLimit] = useState(8)
   const [offset, setOffset] = useState(0)
   const [sort, setSort] = useState('time')
   const [userCount, setUserCount] = useState(0)
@@ -43,7 +41,6 @@ function Head() {
 
   const handleCardWidthChange = (width) => {
     setCardWidth(width)
-    // 너비에 따라 limit 상태 변경
     if (width > 868 && limit !== 8) {
       setLimit(8)
     } else if (width <= 868 && limit !== 6) {

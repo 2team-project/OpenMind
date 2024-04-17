@@ -1,5 +1,3 @@
-// CardList.jsx
-
 import { useEffect, useRef } from 'react'
 import * as S from './styled'
 import CardListItem from './CardListItem'

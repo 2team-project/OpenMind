@@ -1,9 +1,12 @@
 import styled from 'styled-components'
 import media, { size } from '../utils/media'
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+`
 
 const TextArea = styled.textarea`
-  width: 12.6rem;
-  height: 11.6rem;
+  width: 100%;
   background-color: var(--grayScale20);
   resize: none;
   border-radius: 8px;
@@ -15,17 +18,13 @@ const TextArea = styled.textarea`
   &:focus {
     outline: 2px solid var(--brown40); /* 테두리 색상 변경 */
   }
-
-  ${media(size.tablet)`
-    width: 34rem;
-  `}
-
-  ${media(size.desktop)`
-    width: 35rem;
-  `}
 `
-function InputTextArea() {
-  return <TextArea placeholder="답변을 입력해주세요"></TextArea>
+function InputTextArea({ placeholder = 'placeholder를 prop으로 내려주세요' }) {
+  return (
+    <Container>
+      <TextArea placeholder={placeholder}></TextArea>
+    </Container>
+  )
 }
 
 export default InputTextArea

@@ -4,6 +4,8 @@ import FeedCardQuestion from './FeedCardQuestion'
 import FeedCardAnswer from './FeedCardAnswer'
 import kebabImg from '/public/icons/more.svg'
 import Badge from './Badge'
+import ReactionLike from './ReactionLike'
+import ReactionHate from './ReactionHate'
 
 const StyledDiv = styled.div`
   padding: 1.5rem;
@@ -18,12 +20,10 @@ const StyledMenubar = styled.div`
   justify-content: space-between;
 `
 const StyledReactionLine = styled.div`
-  hr: {
-    border: none;
-    height: 2px;
-    background-color: #333;
-    margin: 1.25rem;
-  }
+  display: flex;
+  gap: 2rem;
+  border-top: 1px solid var(--grayScale30);
+  padding-top: 1rem;
 `
 const StyledKebabButton = styled.button`
   background: url(${kebabImg}) no-repeat center;
@@ -66,8 +66,8 @@ function FeedCardLayout() {
       <FeedCardAnswer />
       <Margin />
       <StyledReactionLine>
-        <hr />
-        <div>좋아요 싫어요</div>
+        <ReactionLike />
+        <ReactionHate />
       </StyledReactionLine>
     </StyledDiv>
   )

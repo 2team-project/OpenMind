@@ -20,5 +20,10 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
+<<<<<<< HEAD
   }, // 설정 파일에서 규칙 하나하나를 세세하게 제어하기 위해 사용
 }
+=======
+  },// 설정 파일에서 규칙 하나하나를 세세하게 제어하기 위해 사용
+};
+>>>>>>> develop

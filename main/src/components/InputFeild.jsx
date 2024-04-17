@@ -28,16 +28,52 @@ const Input = styled.input`
     outline: 2px solid var(--brown40); /* 테두리 색상 변경 */
   }
 
+  /* placeholder 스타일 */
+  &::placeholder {
+    color: ${(props) =>
+      props.$placeholderColor ||
+      '#999'}; // placeholder 색상을 동적으로 지정 가능
+  }
+
   ${media(size.tablet)`
     width: 21rem;
   `}
 `
 
-function InputFeild() {
+function InputFeild({ onValueChange }) {
+  const [value, setValue] = useState('')
+  const [placeholderColor, setPlaceholderColor] = useState('#999')
+
+  const handleChange = (event) => {
+    const newValue = event.target.value
+    setValue(newValue)
+    onValueChange(newValue)
+
+    if (event.target.value !== '') {
+      setPlaceholderColor('var(--grayScale20)')
+    }
+  }
+
+  const handleBlur = (e) => {
+    const inputValue = e.target.value
+    setValue(inputValue)
+    onValueChange(inputValue)
+
+    if (e.target.value === '') {
+      setPlaceholderColor('black')
+    }
+  }
+
   return (
     <Container>
       <PersonIcon src="../../icons/person.svg" alt="사람 아이콘" />
-      <Input placeholder="이름을 입력하세요" />
+      <Input
+        placeholder="이름을 입력하세요"
+        value={value}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        $placeholderColor={placeholderColor} // placeholder 색상 prop 전달
+      />
     </Container>
   )
 }

@@ -1,4 +1,6 @@
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
+import { shareKakao } from '../utils/shareKakao'
 
 const URL = {
   LINK: '../../icons/link.svg',
@@ -33,11 +35,42 @@ const ButtonFacebook = styled(Button)`
 `
 
 function ButtonShare() {
+  const thisURL = window.location.href
+  const openMindURL = ''
+  const title = '오픈마인드'
+
+  useEffect(() => {
+    const script = document.createElement('script')
+    script.src = 'https://developers.kakao.com/sdk/js/kakao.js' // 카카오톡 SDK
+    script.async = true
+
+    document.body.appendChild(script)
+
+    return () => {
+      document.body.removeChild(script) // return으로 제거해주기
+    }
+  }, [])
+
+  const hanldeLinkShare = () => {
+    navigator.clipboard.writeText(window.location.href)
+    alert('URL을 복사했습니다.')
+  }
+
+  const handleFacebookShare = () => {
+    window.open(
+      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(thisURL)}`,
+      '_blank'
+    )
+  }
+
   return (
     <Container>
-      <Button icon={URL.LINK} />
-      <ButtonKakao icon={URL.KAKAO} />
-      <ButtonFacebook icon={URL.FACEBOOK} />
+      <Button onClick={hanldeLinkShare} icon={URL.LINK} />
+      <ButtonKakao
+        onClick={() => shareKakao(openMindURL, thisURL, title)}
+        icon={URL.KAKAO}
+      />
+      <ButtonFacebook onClick={handleFacebookShare} icon={URL.FACEBOOK} />
     </Container>
   )
 }

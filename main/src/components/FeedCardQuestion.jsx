@@ -8,11 +8,11 @@ const StyledTitle = styled.div`
   color: var(--grayScale60);
   font-size: 1rem;
 `
-function FeedCardQuestion() {
+function FeedCardQuestion({ question }) {
   return (
     <>
-      <StyledTime>질문 · 2주전</StyledTime>
-      <StyledTitle> 좋아하는 동물은?</StyledTitle>
+      <StyledTime>{new Date(question.createdAt).toLocaleDateString()}</StyledTime>
+      <StyledTitle>{question.content}</StyledTitle>
     </>
   )
 }

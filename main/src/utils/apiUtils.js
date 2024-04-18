@@ -17,9 +17,14 @@ const handleResponse = async (response) => {
   return response.json()
 }
 
-// 질문을 조회하는 API 함수
-export const fetchQuestion = async (questionId) => {
-  const url = `${BASE_URL}/questions/${questionId}/`
+// 특정 id에 들어 온 질문을 조회하는 API 함수
+export const fetchQuestionsForQuestionId = async (questionId) => {
+  if (!questionId) {
+    console.error("fetchQuestionsForQuestionId 함수가 questionId 없이 호출되었습니다.");
+    return;
+  }
+
+  const url = `${BASE_URL}/subjects/${questionId}/questions/`;
   const response = await fetch(url, {
     method: 'GET',
     headers: {
@@ -27,10 +32,13 @@ export const fetchQuestion = async (questionId) => {
     },
   })
   if (!response.ok) {
-    throw new Error('Network response was not ok.')
-  }
-  return response.json()
-}
+
+    const errorData = await response.text();
+    throw new Error(`API 오류: ${errorData}`);
+    }
+  return await response.json();
+};
+
 
 // 질문에 대한 답변을 생성하는 API 함수
 export const createAnswer = async (questionId, content, isRejected) => {

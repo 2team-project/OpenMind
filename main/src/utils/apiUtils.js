@@ -17,7 +17,6 @@ export const fetchQuestionsForQuestionId = async (questionId) => {
     )
     return
   }
-
   const url = `${BASE_URL}/subjects/${questionId}/questions/`
   const response = await fetch(url, {
     method: 'GET',
@@ -110,6 +109,7 @@ export const createQuestion = async (subjectId, content) => {
     throw new Error('Network response was not ok.')
   }
   return handleApiError(response)
+
 }
 
 // 답변자들의 feed를 조회하는 API 함수

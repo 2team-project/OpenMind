@@ -23,7 +23,7 @@ const Logo = styled.a`
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  margin-top: 5rem;
+  margin-top: 1rem;
   margin-bottom: 1rem;
 `;
 

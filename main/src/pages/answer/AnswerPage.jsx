@@ -8,16 +8,23 @@ const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  background-image: url('../../images/backgroundImg.png');
+  background-position: top;
+  background-repeat: no-repeat;
+  z-index: -1;
 `;
 
 const Logo = styled.a`
-  background-image: url('../../../public/images/logo.png');
+  background-image: url('../../../public/images/logo.png');     
   width: 15.5rem;
   height: 6rem;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
   margin-top: 5rem;
+  margin-bottom: 1rem;
 `;
 
 const ProfileContainer = styled.div`
@@ -25,7 +32,7 @@ const ProfileContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;  // 요소들 사이의 간격
+  gap: 0.5rem;
 `;
 
 const ProfileImage = styled.img`
@@ -78,9 +85,9 @@ function AnswerPage() {
     <PageContainer>
       <Logo />
       <ProfileContainer>
-        <ProfileImage src={subject.imageSource} alt="프로필 이미지" />
+        <ProfileImage src={subject.imageSource} />
         <ProfileName>{subject.name}</ProfileName>
-        <ButtonShare /> {/* 공유 버튼 컴포넌트 배치 */}
+        <ButtonShare />
       </ProfileContainer>
       <QuestionsContainer>
         <h3>{subject.questionCount} 개의 질문이 있습니다</h3>

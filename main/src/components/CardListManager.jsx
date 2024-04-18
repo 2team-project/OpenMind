@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
 import CardList from './CardList'
-import { getCards } from '../utils/getCard'
 import DropDownButton from './DropDownButton'
 import PagenationButton from './PagenationButton'
-import * as S from './styled'
+import * as S from './listStyled'
+import { getSubjects } from '../utils/apiUtils'
+import { getCards } from '../utils/getCard'
 
-function Head() {
+function CardListManager() {
   const [items, setItems] = useState([])
   const [limit, setLimit] = useState(8)
   const [offset, setOffset] = useState(0)
@@ -13,11 +14,11 @@ function Head() {
   const [userCount, setUserCount] = useState(0)
   const [nextPage, setNextPage] = useState(null)
   const [prevPage, setPrevPage] = useState(null)
-  const [cardWidth, setCardWidth] = useState(0)
+  const [cardListWidth, setCardListWidth] = useState(0)
 
   const handleLoad = async (options) => {
     try {
-      const Cards = await getCards(options)
+      const Cards = await getSubjects(options)
       setItems(Cards.results)
       setUserCount(Cards.count)
       setNextPage(Cards.next)
@@ -40,16 +41,16 @@ function Head() {
   }
 
   const handleCardWidthChange = (width) => {
-    setCardWidth(width)
-    if (width > 868 && limit !== 8) {
+    if (width >= 868 && limit !== 8) {
       setLimit(8)
-    } else if (width <= 868 && limit !== 6) {
+    } else if (width < 868 && limit !== 6) {
       setLimit(6)
     }
+    setCardListWidth(width)
   }
 
   return (
-    <S.Head>
+    <S.Container>
       <S.Header>
         <S.ListText>누구에게 질문할까요?</S.ListText>
         <DropDownButton value={sort} onChange={handleSort} />
@@ -61,14 +62,17 @@ function Head() {
           limit={limit}
         />
       </S.CardListDisplay>
-      <PagenationButton
-        onClick={handleOffsetClick}
-        nextpage={nextPage}
-        prevpage={prevPage}
-        usercount={userCount}
-      />
-    </S.Head>
+      <S.PagenationPosition>
+        <PagenationButton
+          onClick={handleOffsetClick}
+          nextpage={nextPage}
+          prevpage={prevPage}
+          usercount={userCount}
+          width={cardListWidth}
+        />
+      </S.PagenationPosition>
+    </S.Container>
   )
 }
 
-export default Head
+export default CardListManager

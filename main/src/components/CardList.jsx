@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import * as S from './styled'
+import * as S from './listStyled'
 import CardListItem from './CardListItem'
 
 function CardList({ items, onWidthChange, limit }) {
@@ -13,6 +13,7 @@ function CardList({ items, onWidthChange, limit }) {
       }
     }
 
+    handleResize()
     window.addEventListener('resize', handleResize)
 
     return () => {

@@ -1,5 +1,5 @@
 import MessageImg from '../../public/icons/messages-gray.svg'
-import * as S from './styled'
+import * as S from './listStyled'
 
 function CardListItem({ item }) {
   return (

@@ -1,9 +1,10 @@
 import './global.css'
-import Li from './pages/list/ListPage'
+import ListPage from './pages/list/ListPage'
+
 function App() {
   return (
     <>
-      <Li />
+      <ListPage />
     </>
   )
 }

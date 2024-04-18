@@ -3,8 +3,9 @@ import media, { size } from '../utils/media'
 import ArrowUpImg from '../../public/icons/arrowUp.svg'
 import ArrowDownImg from '../../public/icons/arrowDown.svg'
 
-export const Head = styled.div`
+export const Container = styled.div`
   position: relative;
+  height: 100%;
 `
 
 export const ListText = styled.h1`
@@ -147,12 +148,13 @@ export const CardContainer = styled.div`
   gap: 16px;
   padding: 0 24px;
   margin-top: 18px;
+  background: var(--Grayscale-20, #f9f9f9);
 
   ${media(size.tablet)`
     grid-template-columns: repeat(3, minmax(186px, 220px));
     gap: 20px;
-    padding: 0 32px;
-    margin-top: 30px;
+    padding: 30px 32px;
+    height: 376px;
   `}
   @media (min-width: 868px) {
     grid-template-columns: repeat(4, minmax(186px, 220px));
@@ -168,18 +170,29 @@ export const CardListDisplay = styled.div`
 `
 
 export const NavContainer = styled.div`
+  @media (min-width: 1200px) {
+    display: flex;
+    justify-content: center;
+  }
+`
+
+export const NavDisplay = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  margin-top: 40px;
+  padding: 40px 0 0;
   gap: 20px;
 
   ${media(size.tablet)`
     flex-direction: row;
     margin: 0 50px;
-    margin-top: 44px;
+    padding: 44px 0 0;
   `}
+
+  @media (min-width: 1200px) {
+    width: 1100px;
+  }
 `
 
 export const Header = styled.div`
@@ -192,6 +205,10 @@ export const Header = styled.div`
     align-items: center;
     gap: 12px;
   `}
+`
+
+export const PagenationPosition = styled.div`
+  position: relative;
 `
 
 export const PageButton = styled.p`
@@ -218,7 +235,12 @@ export const PagenationContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 31px;
+  position: absolute;
+  width: 100%;
+  bottom: -180px;
+  padding: 100px 0 50px;
+  background: var(--Grayscale-20, #f9f9f9);
+  z-index: -111;
 `
 
 export const PrevButton = styled.button`

@@ -1,9 +1,10 @@
-import { useState, useRef } from 'react'
+import React, { useState, useRef } from 'react'
 import styled from 'styled-components'
 import FeedCardQuestion from './FeedCardQuestion'
 import FeedCardAnswer from './FeedCardAnswer'
 import kebabImg from '/public/icons/more.svg'
 import Badge from './Badge'
+import { fetchQuestionsForQuestionId } from '../utils/apiUtils';
 
 const StyledDiv = styled.div`
   padding: 1.5rem;
@@ -33,44 +34,58 @@ const StyledKebabButton = styled.button`
 `
 const Margin = styled.div`
   height: 2rem;
-`
+` 
 
-function FeedCardLayout() {
-  const [isAnswered, setIsAnswerd] = useState(true)
-  const [isKebabOpen, setIsKebabOpen] = useState(false)
+function FeedCardLayout({ questionId }) {
+  const [questionData, setQuestionData] = useState(null);
+  const [isKebabOpen, setIsKebabOpen] = useState(false);
+  const optionsRef = useRef(null);
+
+  useEffect(() => {
+    fetchQuestionsForQuestionId(questionId)
+      .then(data => {
+        setQuestionData(data.results);
+      })
+      .catch(error => {
+        console.error('Error fetching questions:', error);
+      });
+  }, [questionId]);
 
   const handleKebabToggle = () => {
-    setIsKebabOpen((prevValue) => !prevValue)
-  }
-  const optionsRef = useRef(null)
+    setIsKebabOpen(prev => !prev);
+  };
 
   const handleKebabClose = (e) => {
-    if (!optionsRef.current || !optionsRef.current.contains(e.relatedTarget)) {
-      setIsKebabOpen(false)
+    if (!optionsRef.current.contains(e.relatedTarget)) {
+      setIsKebabOpen(false);
     }
-  }
+  };
+
+  if (!questionData) return <div>Loading...</div>;
 
   return (
     <StyledDiv>
       <StyledMenubar>
-        <Badge isAnswered={isAnswered} />
-        <StyledKebabButton
-          onClick={handleKebabToggle}
-          onBlur={handleKebabClose}
-        />
+        <Badge isAnswered={questionData.some(question => question.answer)} />
+        <StyledKebabButton onClick={handleKebabToggle} onBlur={handleKebabClose} />
         {isKebabOpen && <Dropdown />}
       </StyledMenubar>
       <Margin />
-      <FeedCardQuestion />
-      <Margin />
-      <FeedCardAnswer />
-      <Margin />
+      {questionData.map((question, index) => (
+        <React.Fragment key={question.id}>
+          <FeedCardQuestion question={question} />
+          <Margin />
+          <FeedCardAnswer answer={question.answer} />
+          {index < questionData.length - 1 && <Margin />}
+        </React.Fragment>
+      ))}
       <StyledReactionLine>
         <hr />
         <div>좋아요 싫어요</div>
       </StyledReactionLine>
     </StyledDiv>
-  )
+  );
 }
+
 
 export default FeedCardLayout

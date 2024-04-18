@@ -1,62 +1,85 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchQuestion, createAnswer } from '../../utils/apiUtils';
-import { useAsync } from '../../utils/stateUtils';
+import styled from 'styled-components';
 import FeedCardQuestion from '../../components/FeedCardQuestion';
+import FeedCardAnswer from '../../components/FeedCardAnswer';
+import InputTextArea from '../../components/InputTextArea';
+import { fetchQuestion, createAnswer } from '../../utils/apiUtils';
+import { handleApiError } from '../../utils/errorUtils';
+
+const AnswerContainer = styled.div`
+  /* 레이아웃 넣는 곳 */
+`;
 
 function AnswerCard() {
   const { questionId } = useParams();
-  const [answer, setAnswer] = useState('');
-  const { data: question, status, error, execute } = useAsync(async () => {
-    const response = await fetchQuestion(questionId);
-    return response;
-  }, false);
+  const [question, setQuestion] = useState(null);
+  const [answerContent, setAnswerContent] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
+    const loadQuestion = async () => {
+        try {
+            const data = await fetchQuestion(questionId);
+            setQuestion(data);
+        } catch (error) {
+            setError('Question 정보를 가져오지 못했습니다.');
+            console.error(error);
+        }
+    };
+
     if (questionId) {
-      execute();
+        loadQuestion();
     }
-  }, [questionId, execute]);
+}, [questionId]);
 
-  const handleAnswerChange = (event) => {
-    setAnswer(event.target.value);
-  };
-
-  const handleAnswerSubmit = async () => {
-    if (!answer.trim()) {
-      alert('답변을 입력해주세요.');
+  const handleSubmitAnswer = async () => {
+    if (!answerContent.trim()) {
+      alert('답변을 입력하세요');
       return;
     }
-
+    setIsSubmitting(true);
     try {
-      const submittedAnswer = await createAnswer(questionId, answer);
-      setAnswer('');
-      // 성공적으로 답변을 제출한 후에는 페이지를 새로고침하거나 사용자에게 피드백을 줘야할까요?
-      alert('답변이 성공적으로 제출되었습니다.');
+      const response = await createAnswer(questionId, answerContent, false);
+      const newAnswer = await handleApiError(response);
+      console.log('답변이 성공적으로 입력되었습니다:', newAnswer);
+      setAnswerContent('');
+      setQuestion({ ...question, answer: newAnswer });
     } catch (error) {
-      alert('답변 제출 중 오류가 발생했습니다.');
+      setError('답변 제출에 오류가 발생했습니다');
+      console.error(error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  if (status === 'idle' || status === 'pending') return <div>Loading...</div>;
-  if (status === 'error') return <div>Error: {error}</div>;
-  if (!question) return <div>No data available</div>;
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!question) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <div className="answer-container">
-      <FeedCardQuestion /> {/* 사용자가 질문한 내용을 여기서 렌더링 */}
-      <h1>{question.content}</h1>
+    <AnswerContainer>
+      <FeedCardQuestion />
       {question.answer ? (
-        <div>
-          <p>{question.answer.content}</p>
-        </div>
+        <FeedCardAnswer />
       ) : (
-        <>
-          <textarea value={answer} onChange={(e) => setAnswer(e.target.value)} placeholder="답변을 입력해주세요" />
-          <button onClick={handleAnswerSubmit}>Submit Answer</button>
-        </>
+        <InputTextArea
+          placeholder="답변을 입력해주세요"
+          value={answerContent}
+          onChange={(e) => setAnswerContent(e.target.value)}
+        />
       )}
-    </div>
+      {!question.answer && (
+        <button disabled={isSubmitting} onClick={handleSubmitAnswer}>
+          Submit Answer
+        </button>
+      )}
+    </AnswerContainer>
   );
 }
 

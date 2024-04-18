@@ -5,15 +5,12 @@ export const extractErrorMessage = async (response) => {
   
   try {
     if (contentType && contentType.indexOf('application/json') !== -1) {
-      // JSON 형식의 에러 메시지를 처리
       const errorData = await response.json();
       errorMessage = errorData.message || JSON.stringify(errorData);
     } else {
-      // 텍스트 형식의 에러 메시지를 처리
       errorMessage = await response.text();
     }
   } catch (error) {
-    // 에러 메시지 파싱 과정에서 문제가 발생한 경우 기본 메시지를 사용
     errorMessage = '오류 응답을 파싱하는 데 실패했습니다.';
   }
 
@@ -26,7 +23,7 @@ export const handleApiError = async (response) => {
     const errorMessage = await extractErrorMessage(response);
     throw new Error(errorMessage);
   }
-  return response.json();  // 성공적인 응답 처리
+  return response.json();
 };
 
 // 사용 예시:

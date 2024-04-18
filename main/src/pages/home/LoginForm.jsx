@@ -36,8 +36,8 @@ function LoginForm() {
       if (!response.ok) {
         throw new Error('API 요청이 실패했습니다.')
       }
-
       const data = await response.json()
+
       window.location.href = `/post/${data.id}/answer` // 페이지 이동
     } catch (error) {
       console.error('API 오류:', error)

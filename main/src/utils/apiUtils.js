@@ -5,7 +5,6 @@ const BASE_URL = 'https://openmind-api.vercel.app/5-2'
 const getHeaders = () => {
   return {
     'Content-Type': 'application/json',
-    // 필요하면 다른 헤더를 여기에 포함
   }
 }
 
@@ -17,10 +16,28 @@ const handleResponse = async (response) => {
   return response.json()
 }
 
-// 특정 id에 들어 온 질문을 조회하는 API 함수
-export const fetchQuestionsForQuestionId = async (questionId) => {
+// id 조회 함수
+export const fetchSubjectById = async (subjectId) => {
+  const url = `${BASE_URL}/subjects/${subjectId}/`;
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  
+  if (!response.ok) {
+    const error = await handleApiError(response);
+    throw new Error(`API 요청 실패: ${error}`);
+  }
+
+  return response.json();
+};
+
+// id에 들어 온 질문을 조회하는 API 함수
+export const fetchQuestionsForSubject = async (questionId) => {
   if (!questionId) {
-    console.error("fetchQuestionsForQuestionId 함수가 questionId 없이 호출되었습니다.");
+    console.error("fetchQuestionsForSubject 함수가 questionId 없이 호출되었습니다.");
     return;
   }
 

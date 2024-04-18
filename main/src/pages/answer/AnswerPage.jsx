@@ -10,17 +10,22 @@ const PageContainer = styled.div`
   align-items: center;
 `;
 
-const Logo = styled.img`
-  width: 200px;
-  margin-top: 20px;
+const Logo = styled.a`
+  background-image: url('../../../public/images/logo.png');
+  width: 15.5rem;
+  height: 6rem;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  margin-top: 5rem;
 `;
 
 const ProfileContainer = styled.div`
   display: flex;
-  width: 80%;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  margin-top: 20px;
+  justify-content: center;
+  gap: 0.5rem;  // 요소들 사이의 간격
 `;
 
 const ProfileImage = styled.img`
@@ -30,7 +35,8 @@ const ProfileImage = styled.img`
 `;
 
 const ProfileName = styled.h2`
-  margin-left: 20px;
+  font-size: 1.5rem;
+  color: var(--grayScale60);
 `;
 
 const QuestionsContainer = styled.div`
@@ -70,9 +76,9 @@ function AnswerPage() {
 
   return (
     <PageContainer>
-      <Logo src="../../../public/images/logo.png" alt="로고마인드 로고" />
+      <Logo />
       <ProfileContainer>
-        <ProfileImage src={subject.imageSource} alt="Profile Image" />
+        <ProfileImage src={subject.imageSource} alt="프로필 이미지" />
         <ProfileName>{subject.name}</ProfileName>
         <ButtonShare /> {/* 공유 버튼 컴포넌트 배치 */}
       </ProfileContainer>
@@ -80,7 +86,7 @@ function AnswerPage() {
         <h3>{subject.questionCount} 개의 질문이 있습니다</h3>
         {questions.length ? questions.map(question => (
           <FeedCardLayout key={question.id} question={question} />
-        )) : <p>답변된 질문이 없습니다.</p>}
+        )) : <p>답변된 질문이 없습니다.</p>}  
       </QuestionsContainer>
     </PageContainer>
   );

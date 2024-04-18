@@ -1,12 +1,6 @@
 import './global.css'
-import ListPage from './pages/list/ListPage'
-
 function App() {
-  return (
-    <>
-      <ListPage />
-    </>
-  )
+  return <></>
 }
 
 export default App

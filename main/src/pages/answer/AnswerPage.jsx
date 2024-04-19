@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import ButtonShare from '../../components/ButtonShare'
-import { fetchSubjectById } from '../../utils/apiUtils'
+import { getId, getQuestions } from '../../utils/apiUtils'
+import FeedCard from '../../components/FeedCard'
 
 const PageContainer = styled.div`
   display: flex;
@@ -54,17 +55,28 @@ const QuestionsContainer = styled.div`
 function AnswerPage() {
   const { id } = useParams()
   const [subject, setSubject] = useState(null)
+  const [questions, setQuestions] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
   useEffect(() => {
     async function loadSubject() {
       try {
-        const data = await fetchSubjectById(id)
+        const data = await getId(id)
         setSubject(data)
       } catch (error) {
         console.error('회원 정보를 불러오는 데 실패:', error)
         setError('회원 정보를 불러오는 데 실패했습니다.')
+      }
+      try {
+        const subjectId = id
+        const response = await getQuestions(subjectId)
+        console.log(response)
+        const questions = response.results
+        setQuestions(questions)
+      } catch (error) {
+        console.error('질문 목록을 불러오는 데 실패:', error)
+        setError('질문 목록을 불러오지 못하였습니다.')
       } finally {
         setLoading(false)
       }
@@ -77,9 +89,9 @@ function AnswerPage() {
 
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error: {error}</p>
-  if (!subject) return <p>해당 id의 정보가 없습니다.</p>
-
-  const questions = subject.questions || []
+  if (!subject) {
+    return <p>해당 id의 정보가 없습니다.</p>
+  }
 
   return (
     <PageContainer>
@@ -93,7 +105,7 @@ function AnswerPage() {
         <h3>{subject.questionCount} 개의 질문이 있습니다</h3>
         {questions.length ? (
           questions.map((question) => (
-            <FeedCardLayout key={question.id} question={question} />
+            <FeedCard key={question.id} question={question} />
           ))
         ) : (
           <p>답변된 질문이 없습니다.</p>

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import styled from 'styled-components'
 import FeedCardQuestion from './FeedCardQuestion'
 import FeedCardAnswer from './FeedCardAnswer'
@@ -38,20 +38,20 @@ const Margin = styled.div`
   height: 2rem;
 `
 
-function FeedCardLayout({ questionId }) {
-  const [questionData, setQuestionData] = useState(null)
+function FeedCardLayout({ question }) {
+  //const [questionData, setQuestionData] = useState(null)
   const [isKebabOpen, setIsKebabOpen] = useState(false)
   const optionsRef = useRef(null)
 
-  useEffect(() => {
-    getQuestionDetails(questionId)
-      .then((data) => {
-        setQuestionData(data.results)
-      })
-      .catch((error) => {
-        console.error('Error fetching questions:', error)
-      })
-  }, [questionId])
+  // useEffect(() => {
+  //   getQuestionDetails(questionId)
+  //     .then((data) => {
+  //       setQuestionData(data.results)
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error fetching questions:', error)
+  //     })
+  // }, [questionId])
 
   const handleKebabToggle = () => {
     setIsKebabOpen((prev) => !prev)
@@ -63,12 +63,12 @@ function FeedCardLayout({ questionId }) {
     }
   }
 
-  if (!questionData) return <div>Loading...</div>
+  //if (!questionData) return <div>Loading...</div>
 
   return (
     <StyledDiv>
       <StyledMenubar>
-        <Badge isAnswered={questionData.some((question) => question.answer)} />
+        <Badge isAnswered={question.answer !== null} />
         <StyledKebabButton
           onClick={handleKebabToggle}
           onBlur={handleKebabClose}
@@ -76,14 +76,9 @@ function FeedCardLayout({ questionId }) {
         {isKebabOpen && <Dropdown />}
       </StyledMenubar>
       <Margin />
-      {questionData.map((question, index) => (
-        <React.Fragment key={question.id}>
-          <FeedCardQuestion question={question} />
-          <Margin />
-          <FeedCardAnswer answer={question.answer} />
-          {index < questionData.length - 1 && <Margin />}
-        </React.Fragment>
-      ))}
+      <FeedCardQuestion question={question} />
+      <Margin />
+      <FeedCardAnswer answer={question.answer} />
       <StyledReactionLine>
         <ReactionLike />
         <ReactionHate />

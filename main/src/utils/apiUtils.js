@@ -81,15 +81,6 @@ export const addReactionToQuestion = async (questionId, type) => {
   return handleApiError(response)
 }
 
-<<<<<<< HEAD
-export async function getSubjects({ offset = 0, limit = 8, sort = 'time' }) {
-  const query = `limit=${limit}&offset=${offset}&sort=${sort}`
-  const response = await fetch(
-    `https://openmind-api.vercel.app/5-2/subjects/?${query}`
-  )
-  const body = await response.json()
-  return body
-=======
 // subject (답변자)를 생성하는 API 함수
 export const createSubject = async (name) => {
   const url = `${BASE_URL}/subjects/`
@@ -121,7 +112,6 @@ export const getSubjects = async (limit, offset, sort) => {
     headers: getHeaders(),
   })
   return handleApiError(response)
->>>>>>> develop
 }
 
 // 질문 목록을 조회하는 API 함수 (subjectID필요)
@@ -152,4 +142,18 @@ export const deleteId = async (subjectId) => {
     headers: getHeaders(),
   })
   return handleApiError(response)
+}
+
+////////////////
+
+export const getSubs = async ({ limit = 8, offset = 0, sort = 'time' }) => {
+  const queryParams = new URLSearchParams({ limit, offset, sort }).toString()
+  const url = `${BASE_URL}/subjects/?${queryParams}`
+
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: getHeaders(),
+  })
+  const data = await handleApiError(response)
+  return data
 }

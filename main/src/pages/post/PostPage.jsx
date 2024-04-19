@@ -56,14 +56,7 @@ function PostPage() {
       <S.QuestionsContainer>
         {questions.length ? (
           questions.map((question) => (
-            <>
-              <h3>{subject.questionCount} 개의 질문이 있습니다</h3>
-              <FeedCard
-                key={question.id}
-                subject={subject}
-                question={question}
-              />
-            </>
+            <FeedCard key={question.id} subject={subject} question={question} />
           ))
         ) : (
           <S.NoQuestion>

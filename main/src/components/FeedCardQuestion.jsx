@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import getElapsedTime from '../utils/getElapsedTime'
 
 const StyledTime = styled.div`
   color: var(--grayScale40);
@@ -11,7 +12,7 @@ const StyledTitle = styled.div`
 function FeedCardQuestion({ question }) {
   return (
     <>
-      <StyledTime>{new Date(question.createdAt).toLocaleDateString()}</StyledTime>
+      <StyledTime>{getElapsedTime(question.createdAt)}</StyledTime>
       <StyledTitle>{question.content}</StyledTitle>
     </>
   )

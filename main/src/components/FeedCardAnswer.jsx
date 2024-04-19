@@ -1,9 +1,14 @@
 import { useState } from 'react'
 import styled from 'styled-components'
+import InputTextForm from './InputTextForm'
+import getElapsedTime from '../utils/getElapsedTime'
 
 const StyledAnswer = styled.div`
   display: flex;
   flex-flow: row;
+`
+const StyledSubject = styled(FeedCardAnswer)`
+  display: flex;
 `
 const StyledProfile = styled.img`
   width: 2rem;
@@ -18,24 +23,59 @@ const StyledDate = styled.span`
   margin-left: 0.5rem;
   font-size: 0.875rem;
 `
-function FeedCardAnswer({ answer }) {
-  const [answerContent, setAnswerContent] = useState(answer ? answer.content : '');
-  // 미답변, 답변 작성 중, 답변 수정 중, 답변 완료, 답변 거절 5가지 케이스의 구현 필요
+const RejectDiv = styled.div`
+  color: var(--red50);
+`
 
+function SubjectProfile({ answer, subject }) {
   return (
-<StyledAnswer>
-      <StyledProfile src={answer ? answer.imageSource : '/path/to/default/image.jpg'} />
-      <div>
-        <StyledUserName>
-          {answer ? answer.name : "No Name Provided"}<StyledDate>{answer ? new Date(answer.createdAt).toLocaleDateString() : '2주전'}</StyledDate>
-        </StyledUserName>
-        {answer ? (
-          <div>{answerContent}</div>
-        ) : (
-          <InputTextArea placeholder="답변을 입력해주세요" value={answerContent} onChange={e => setAnswerContent(e.target.value)} />
-        )}
-      </div>
-    </StyledAnswer>
+    <>
+      <StyledProfile
+        src={subject ? subject.imageSource : '/path/to/default/image.jpg'}
+      />
+      <StyledUserName>
+        {subject ? subject.name : 'No Name Provided'}
+        <StyledDate>
+          {subject ? getElapsedTime(subject.createdAt) : '2주전'}
+        </StyledDate>
+      </StyledUserName>
+    </>
   )
+}
+
+// 미답변, 답변 작성 중, 답변 수정 중, 답변 완료, 답변 거절 5가지 케이스의 구현 필요
+function FeedCardAnswer({ subject, answer, question }) {
+  const [answerContent, setAnswerContent] = useState(null)
+  const isAnswered = question.answer !== null
+  let isRejected = false
+  if (isAnswered) {
+    isRejected = answer.isRejected
+  }
+
+  if (isRejected) {
+    return (
+      <>
+        <SubjectProfile subject={subject} answer={answer} />
+        <RejectDiv>답변 거절</RejectDiv>
+      </>
+    )
+  } else {
+    return (
+      <StyledAnswer>
+        <SubjectProfile subject={subject} answer={answer} />
+        <div>
+          {isAnswered ? (
+            <div>{answerContent}</div>
+          ) : (
+            <InputTextForm
+              placeholder="답변을 입력해주세요"
+              value={answerContent}
+              onChange={(e) => setAnswerContent(e.target.value)}
+            />
+          )}
+        </div>
+      </StyledAnswer>
+    )
+  }
 }
 export default FeedCardAnswer

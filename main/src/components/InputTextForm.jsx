@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import styled from 'styled-components'
+import { isRequired } from '../utils/validationUtils'
 
 const StyledForm = styled.form`
   display: flex;
@@ -24,8 +25,6 @@ const TextArea = styled.textarea`
 const SendButton = styled.button`
   width: 100%;
   height: 2.875rem;
-  background-color: ${(props) =>
-    props.hasText ? 'var(--brown40)' : 'var(--brown30)'};
   border-radius: 8px;
   margin-top: 0.5rem;
   font-size: 1rem;
@@ -48,9 +47,16 @@ function InputTextForm({
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    action(text)
+    if (isRequired(text)) {
+      action(text)
+    } else {
+      placeholder = '필수 입력값입니다.'
+    }
     //action함수는 prop으로 전달받습니다. TextArea의 내용을 파라미터로 전달해 post/patch 할 수 있습니다.
   }
+  const buttonBackgroundColor = isRequired(text)
+    ? 'var(--brown40)'
+    : 'var(--brown30)'
 
   return (
     <StyledForm onSubmit={handleSubmit}>
@@ -58,7 +64,10 @@ function InputTextForm({
         onChange={handleInputChange}
         placeholder={placeholder}
       ></TextArea>
-      <SendButton type="submit" hasText={text.trim().length > 0}>
+      <SendButton
+        type="submit"
+        style={{ backgroundColor: buttonBackgroundColor }}
+      >
         {buttonText}
       </SendButton>
     </StyledForm>

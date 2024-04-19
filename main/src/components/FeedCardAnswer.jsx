@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import InputTextForm from './InputTextForm'
 import getElapsedTime from '../utils/getElapsedTime'
 import media, { size } from '../utils/media'
+import { createAnswer, updateAnswer } from '../utils/apiUtils'
 
 const StyledAnswer = styled.div`
   display: flex;
@@ -41,6 +42,8 @@ const RejectDiv = styled.div`
   color: var(--red50);
 `
 
+//여러 상태에서 공통적으로 나오는 subject의 프로필이미지, 이름, 답변생성시간을 표시하는 컴포넌트입니다.
+//답변 생성시간은 답변이 작성된 시간이며, 답변이 없을 경우 보이지 않습니다.
 function SubjectProfile({
   subject,
   showCreatedTime,
@@ -65,14 +68,14 @@ function SubjectProfile({
   )
 }
 
-// isAnswerPage : 현재 페이지가 AnswerPage인지를 받습니다. AnswerPage에서만 prop으로 내리면 됩니다.
 // subject : 답변자 객체를 받습니다. 프로필 이미지, 이름 등을 표시하는데 쓰입니다.
 // question : 질문 하나를 받습니다. 질문 목록 배열에서 map 메서드로 하나만 전달해주세요.
+// isAnswerPage : 현재 페이지가 AnswerPage인지를 받습니다. AnswerPage에서만 prop으로 내리면 됩니다.
 // editing : 현재의 FeedCard가 수정 중인지를 받습니다. AnswerPage에서만 prop으로 내리면 됩니다.
 function FeedCardAnswer({
-  isAnswerPage = false,
   subject,
   question,
+  isAnswerPage = false,
   editing = false,
 }) {
   const [answerContent, setAnswerContent] = useState(null)
@@ -87,13 +90,21 @@ function FeedCardAnswer({
     setAnswer(question.answer ?? null)
     setIsAnswered(answer !== null)
     if (isAnswered) {
-      setIsRejected(answer.isRejected)
+      setIsRejected(answer?.isRejected)
       setAnswerCreatedTime(question?.answer?.createdAt)
     }
-  }, [isAnswered, answer?.isRejected, question?.answer?.createdAt])
+  }, [isAnswered, answer?.isRejected])
 
-  const editButtonOnClick = () => {}
-  const answerButtonOnClick = () => {}
+  //수정하기 버튼 동작
+  const editButtonOnClick = async (content) => {
+    console.log(content)
+    await updateAnswer(question.id, content, isRejected)
+  }
+  //답변하기 버튼 동작
+  const answerButtonOnClick = async (content) => {
+    console.log(content)
+    await createAnswer(question.id, content, isRejected)
+  }
 
   // 답변을 한 경우
   // 답변을 수정중일 경우 인풋 창을 보여주고 수정 중인 버튼이 보입니다.
@@ -110,8 +121,8 @@ function FeedCardAnswer({
               placeholder="답변을 입력해주세요"
               buttonText="수정 완료"
               value={answerContent}
-              onChange={(e) => setAnswerContent(e.target.value)}
-              action={() => editButtonOnClick}
+              onSubmit={(e) => setAnswerContent(e.target.value)}
+              action={editButtonOnClick}
             />
           </SubjectProfile>
         </StyledAnswer>
@@ -157,9 +168,9 @@ function FeedCardAnswer({
             <InputTextForm
               placeholder="답변을 입력해주세요"
               buttonText="답변 완료"
-              value={answerContent}
-              onChange={(e) => setAnswerContent(e.target.value)}
-              action={() => answerButtonOnClick}
+              onSubmit={(text) => {
+                answerButtonOnClick(text)
+              }}
             />
           </SubjectProfile>
         </StyledAnswer>

@@ -91,6 +91,7 @@ function FeedCard({ subject, question }) {
         subject={subject}
         question={question}
         editing={false}
+        // editing값은 state화 해서 사용해야합니다. 케밥버튼 기능 추가시 변경하겠습니다.
       />
       <Margin />
 

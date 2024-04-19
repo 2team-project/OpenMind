@@ -35,11 +35,11 @@ const SendButton = styled.button`
 
 //placeholder에 input의 입력 전 기본값,
 //buttonText는 버튼에 들어갈 문구.
-//action에 버튼 클릭시 동작 콜백
+//onSubmit은 text를 받아서 부모요소에서 실행될 함수
 function InputTextForm({
   placeholder = '질문을 입력해주세요',
   buttonText = '답변 완료',
-  action = () => console.log('action을 추가해주세요'),
+  onSubmit,
 }) {
   const [text, setText] = useState('')
 
@@ -50,26 +50,23 @@ function InputTextForm({
   const handleSubmit = (e) => {
     e.preventDefault()
     if (isRequired(text)) {
-      action(text)
+      onSubmit(text)
     } else {
-      placeholder = '필수 입력값입니다.'
+      console.warn('답변이 비어있습니다')
     }
-    //action함수는 prop으로 전달받습니다. TextArea의 내용을 파라미터로 전달해 post/patch 할 수 있습니다.
+    //onSubmit함수는 prop으로 전달받습니다. onSubmit={(text) => {answerButtonOnClick(text)}}
+    //answerButtonOnClick 이 핸들러에서 text를 전달받아 사용할 수 있습니다.
   }
-  const buttonBackgroundColor = isRequired(text)
-    ? 'var(--brown40)'
-    : 'var(--brown30)'
+  const buttonColor = isRequired(text) ? 'var(--brown40)' : 'var(--brown30)'
 
   return (
     <StyledForm onSubmit={handleSubmit}>
       <TextArea
         onChange={handleInputChange}
         placeholder={placeholder}
+        value={text}
       ></TextArea>
-      <SendButton
-        type="submit"
-        style={{ backgroundColor: buttonBackgroundColor }}
-      >
+      <SendButton type="submit" style={{ backgroundColor: buttonColor }}>
         {buttonText}
       </SendButton>
     </StyledForm>

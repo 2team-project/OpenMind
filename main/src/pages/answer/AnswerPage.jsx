@@ -105,7 +105,7 @@ function AnswerPage() {
         <h3>{subject.questionCount} 개의 질문이 있습니다</h3>
         {questions.length ? (
           questions.map((question) => (
-            <FeedCard key={question.id} question={question} />
+            <FeedCard key={question.id} subject={subject} question={question} />
           ))
         ) : (
           <p>답변된 질문이 없습니다.</p>

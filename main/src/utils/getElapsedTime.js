@@ -17,10 +17,11 @@ function getElapsedTime(date) {
     // 한달 넘어가면 n달 전
     const monthsAgo = Math.floor(diff / (60 * 60 * 24 * 30))
     return `${monthsAgo}달 전`
-  } else {
+  } else if (diff >= 60 * 60 * 24 * 30 * 12) {
     // 1년 넘어가면 n년 전
     const yearsAgo = Math.floor(diff / (60 * 60 * 24 * 30 * 12))
     return `${yearsAgo}년 전`
-  }
+  } else return ''
+  // 예외처리
 }
 export default getElapsedTime

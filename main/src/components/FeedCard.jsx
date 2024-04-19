@@ -48,7 +48,7 @@ function FeedCard({ subject, question }) {
   const location = useLocation()
   const pathname = location.pathname
   const postId = pathname.split('/post/')[1]
-  const isKebabButtonNeeded =
+  const isAnswerPage =
     pathname.startsWith('/post/') && postId && postId.includes('/answer')
 
   const handleKebabToggle = () => {
@@ -66,22 +66,39 @@ function FeedCard({ subject, question }) {
   return (
     <StyledDiv>
       <StyledMenubar>
+        {/* 답변상태를 표시합니다. */}
         <Badge isAnswered={isAnswered} />
-        {isKebabButtonNeeded && (
+
+        {/* 케밥버튼은 AnswerPage에서만 렌더링됩니다. */}
+        {isAnswerPage && (
           <StyledKebabButton
             onClick={handleKebabToggle}
             onBlur={handleKebabClose}
           />
         )}
+        {/* Dropdown 현재 미구현입니다. 여기에서 버튼들의 동작 콜백들 prop으로 내리고 editing상태를 FeedCardAnswer에 업데이트해야합니다. */}
         {isKebabOpen && <Dropdown />}
       </StyledMenubar>
       <Margin />
+
+      {/* 질문 내용과 작성 시간이 표시됩니다. */}
       <FeedCardQuestion question={question} />
       <Margin />
-      <FeedCardAnswer subject={subject} answer={answer} question={question} />
+
+      {/* 답변 내용이 표시됩니다. */}
+      <FeedCardAnswer
+        isAnswerPage={isAnswerPage}
+        subject={subject}
+        question={question}
+        editing={false}
+        // editing값은 state화 해서 사용해야합니다. 케밥버튼 기능 추가시 변경하겠습니다.
+      />
+      <Margin />
+
+      {/* 좋아요와 싫어요 버튼이 표시됩니다. */}
       <StyledReactionLine>
-        <ReactionLike />
-        <ReactionHate />
+        <ReactionLike question={question} />
+        <ReactionHate question={question} />
       </StyledReactionLine>
     </StyledDiv>
   )

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import ListLogo from '../../components/ListLogo'
+import ListLogo from '../list/ListLogo'
 import ButtonAnswer from '../../components/ButtonAnswer'
 import * as S from '../../components/listStyled'
 

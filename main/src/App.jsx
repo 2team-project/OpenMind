@@ -13,7 +13,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/post/:id/answer" element={<AnswerPage />} />
         <Route path="/post/:id" element={<PostPage />} />
-        <Route path="list" element={<ListPage />} />
+        <Route path="/list" element={<ListPage />} />
         {/* 다른 루트 넣는 곳 */}
       </Routes>
     </Router>

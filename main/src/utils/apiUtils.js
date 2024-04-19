@@ -5,7 +5,6 @@ const BASE_URL = 'https://openmind-api.vercel.app/5-2'
 const getHeaders = () => {
   return {
     'Content-Type': 'application/json',
-    // 필요하면 다른 헤더를 여기에 포함
   }
 }
 

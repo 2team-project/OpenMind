@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import styled from 'styled-components'
+import { isRequired } from '../utils/validationUtils'
 
 const StyledForm = styled.form`
   display: flex;
@@ -48,7 +49,11 @@ function InputTextForm({
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    action(text)
+    if (isRequired(text)) {
+      action(text)
+    } else {
+      placeholder = '필수 입력값입니다.'
+    }
     //action함수는 prop으로 전달받습니다. TextArea의 내용을 파라미터로 전달해 post/patch 할 수 있습니다.
   }
 
@@ -58,7 +63,7 @@ function InputTextForm({
         onChange={handleInputChange}
         placeholder={placeholder}
       ></TextArea>
-      <SendButton type="submit" hasText={text.trim().length > 0}>
+      <SendButton type="submit" hasText={isRequired(text)}>
         {buttonText}
       </SendButton>
     </StyledForm>

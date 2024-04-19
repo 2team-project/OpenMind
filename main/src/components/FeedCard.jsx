@@ -4,7 +4,7 @@ import FeedCardQuestion from './FeedCardQuestion'
 import FeedCardAnswer from './FeedCardAnswer'
 import kebabImg from '/public/icons/more.svg'
 import Badge from './Badge'
-import { fetchQuestionsForQuestionId } from '../utils/apiUtils';
+import { getQuestionDetails } from '../utils/apiUtils'
 import ReactionLike from './ReactionLike'
 import ReactionHate from './ReactionHate'
 
@@ -34,40 +34,43 @@ const StyledKebabButton = styled.button`
 `
 const Margin = styled.div`
   height: 2rem;
-` 
+`
 
 function FeedCardLayout({ questionId }) {
-  const [questionData, setQuestionData] = useState(null);
-  const [isKebabOpen, setIsKebabOpen] = useState(false);
-  const optionsRef = useRef(null);
+  const [questionData, setQuestionData] = useState(null)
+  const [isKebabOpen, setIsKebabOpen] = useState(false)
+  const optionsRef = useRef(null)
 
   useEffect(() => {
-    fetchQuestionsForQuestionId(questionId)
-      .then(data => {
-        setQuestionData(data.results);
+    getQuestionDetails(questionId)
+      .then((data) => {
+        setQuestionData(data.results)
       })
-      .catch(error => {
-        console.error('Error fetching questions:', error);
-      });
-  }, [questionId]);
+      .catch((error) => {
+        console.error('Error fetching questions:', error)
+      })
+  }, [questionId])
 
   const handleKebabToggle = () => {
-    setIsKebabOpen(prev => !prev);
-  };
+    setIsKebabOpen((prev) => !prev)
+  }
 
   const handleKebabClose = (e) => {
     if (!optionsRef.current.contains(e.relatedTarget)) {
-      setIsKebabOpen(false);
+      setIsKebabOpen(false)
     }
-  };
+  }
 
-  if (!questionData) return <div>Loading...</div>;
+  if (!questionData) return <div>Loading...</div>
 
   return (
     <StyledDiv>
       <StyledMenubar>
-        <Badge isAnswered={questionData.some(question => question.answer)} />
-        <StyledKebabButton onClick={handleKebabToggle} onBlur={handleKebabClose} />
+        <Badge isAnswered={questionData.some((question) => question.answer)} />
+        <StyledKebabButton
+          onClick={handleKebabToggle}
+          onBlur={handleKebabClose}
+        />
         {isKebabOpen && <Dropdown />}
       </StyledMenubar>
       <Margin />
@@ -84,8 +87,7 @@ function FeedCardLayout({ questionId }) {
         <ReactionHate />
       </StyledReactionLine>
     </StyledDiv>
-  );
+  )
 }
-
 
 export default FeedCardLayout

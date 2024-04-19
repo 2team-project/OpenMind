@@ -8,54 +8,15 @@ const getHeaders = () => {
   }
 }
 
-const handleResponse = async (response) => {
-  if (!response.ok) {
-    const errorData = await response.text()
-    throw new Error(`API 오류: ${errorData}`)
-  }
-  return response.json()
-}
-
-// id 조회 함수
-export const fetchSubjectById = async (subjectId) => {
-  const url = `${BASE_URL}/subjects/${subjectId}/`;
+// 질문 하나를 조회하는 함수(질문ID 사용)
+export const getQuestionDetails = async (questionId) => {
+  const url = `${BASE_URL}/questions/${questionId}/`
   const response = await fetch(url, {
     method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-  
-  if (!response.ok) {
-    const error = await handleApiError(response);
-    throw new Error(`API 요청 실패: ${error}`);
-  }
-
-  return response.json();
-};
-
-// id에 들어 온 질문을 조회하는 API 함수
-export const fetchQuestionsForSubject = async (questionId) => {
-  if (!questionId) {
-    console.error("fetchQuestionsForSubject 함수가 questionId 없이 호출되었습니다.");
-    return;
-  }
-
-  const url = `${BASE_URL}/subjects/${questionId}/questions/`;
-  const response = await fetch(url, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: getHeaders(),
   })
-  if (!response.ok) {
-
-    const errorData = await response.text();
-    throw new Error(`API 오류: ${errorData}`);
-    }
-  return await response.json();
-};
-
+  return handleApiError(response)
+}
 
 // 질문에 대한 답변을 생성하는 API 함수
 export const createAnswer = async (questionId, content, isRejected) => {
@@ -65,19 +26,23 @@ export const createAnswer = async (questionId, content, isRejected) => {
     headers: getHeaders(),
     body: JSON.stringify({ content, isRejected }),
   })
+  return handleApiError(response)
+}
 
-  const data = await response.json()
-
-  console.log('HTTP Status:', response.status)
-  console.log('Response Headers:', Array.from(response.headers.entries()))
-  console.log('Response Body:', data)
-
+// 질문을 삭제하는 API 함수
+export const deleteQuestion = async (id) => {
+  const url = `${BASE_URL}/questions/${id}/`
+  const response = await fetch(url, {
+    method: 'DELETE',
+    headers: getHeaders(),
+  })
   return handleApiError(response)
 }
 
 // 답변을 조회하는 API 함수
 export const getAnswer = async (answerId) => {
-  const response = await fetch(`${BASE_URL}/answers/${answerId}/`, {
+  const url = `${BASE_URL}/answers/${answerId}/`
+  const response = await fetch(url, {
     method: 'GET',
     headers: getHeaders(),
   })
@@ -86,7 +51,8 @@ export const getAnswer = async (answerId) => {
 
 // 답변을 수정하는 API 함수
 export const updateAnswer = async (answerId, content, isRejected) => {
-  const response = await fetch(`${BASE_URL}/answers/${answerId}/`, {
+  const url = `${BASE_URL}/answers/${answerId}/`
+  const response = await fetch(url, {
     method: 'PUT',
     headers: getHeaders(),
     body: JSON.stringify({ content, isRejected }),
@@ -96,7 +62,8 @@ export const updateAnswer = async (answerId, content, isRejected) => {
 
 // 답변을 삭제하는 API 함수
 export const deleteAnswer = async (answerId) => {
-  const response = await fetch(`${BASE_URL}/answers/${answerId}/`, {
+  const url = `${BASE_URL}/answers/${answerId}/`
+  const response = await fetch(url, {
     method: 'DELETE',
     headers: getHeaders(),
   })
@@ -105,26 +72,74 @@ export const deleteAnswer = async (answerId) => {
 
 // 질문에 리액션을 추가하는 API 함수
 export const addReactionToQuestion = async (questionId, type) => {
-  const response = await fetch(
-    `${BASE_URL}/questions/${questionId}/reaction/`,
-    {
-      method: 'POST',
-      headers: getHeaders(),
-      body: JSON.stringify({ type }),
-    }
-  )
+  const url = `${BASE_URL}/questions/${questionId}/reaction/`
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: getHeaders(),
+    body: JSON.stringify({ type }),
+  })
   return handleApiError(response)
 }
 
+// subject (답변자)를 생성하는 API 함수
+export const createSubject = async (name) => {
+  const url = `${BASE_URL}/subjects/`
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: getHeaders(),
+    body: JSON.stringify({ name }),
+  })
+  return handleApiError(response)
+}
+
+// 질문을 생성하는 API 함수
+export const createQuestion = async (subjectId, content) => {
+  const url = `${BASE_URL}/subjects/{subjectId}/questions/`
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: getHeaders(),
+    body: JSON.stringify({ subjectId, content }),
+  })
+  return handleApiError(response)
+}
+
+// 답변자들의 목록(등록된 답변자들 총 숫자, 및 표시할 답변자들의 정보_이름,id,이미지 등)을 조회하는 API 함수
 export const getSubjects = async (limit, offset, sort) => {
   const queryParams = new URLSearchParams({ limit, offset, sort }).toString()
-  const response = await fetch(`${BASE_URL}/subjects/?${queryParams}`, {
+  const url = `${BASE_URL}/subjects/?${queryParams}/`
+  const response = await fetch(url, {
     method: 'GET',
     headers: getHeaders(),
   })
-  const body = await response.json()
-  console.log(body)
-  return body
+  return handleApiError(response)
 }
 
-// 여기에 다른 API 함수들을 계속 추가
+// 질문 목록을 조회하는 API 함수 (subjectID필요)
+export const getQuestions = async (subjectId) => {
+  const url = `${BASE_URL}/subjects/${subjectId}/questions/`
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: getHeaders(),
+  })
+  return handleApiError(response)
+}
+
+// subject 하나의 Id 정보를 가져오는 API 함수 (프로필 이미지/name 조회)
+export const getId = async (subjectId) => {
+  const url = `${BASE_URL}/subjects/${subjectId}/`
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: getHeaders(),
+  })
+  return handleApiError(response)
+}
+
+// 답변자 Id를 삭제하는 함수. createSubject와 반대동작. 테스트시 삭제된 id는 결번으로 남음.
+export const deleteId = async (subjectId) => {
+  const url = `${BASE_URL}/subjects/${subjectId}/`
+  const response = await fetch(url, {
+    method: 'DELETE',
+    headers: getHeaders(),
+  })
+  return handleApiError(response)
+}

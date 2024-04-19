@@ -91,14 +91,12 @@ export const addReactionToQuestion = async (questionId, type) => {
   return handleApiError(response)
 }
 
-export const getSubjects = async (limit, offset, sort) => {
-  const queryParams = new URLSearchParams({ limit, offset, sort }).toString()
-  const response = await fetch(`${BASE_URL}/subjects/?${queryParams}`, {
-    method: 'GET',
-    headers: getHeaders(),
-  })
+export async function getSubjects({ offset = 0, limit = 8, sort = 'time' }) {
+  const query = `limit=${limit}&offset=${offset}&sort=${sort}`
+  const response = await fetch(
+    `https://openmind-api.vercel.app/5-2/subjects/?${query}`
+  )
   const body = await response.json()
-  console.log(body)
   return body
 }
 

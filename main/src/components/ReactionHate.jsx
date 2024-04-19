@@ -20,7 +20,7 @@ function ReactionHate({ question }) {
         console.error('Error adding reaction:', error)
       }
     } else {
-      alert('이미 싫어요요 한 질문입니다!')
+      alert('이미 싫어요 한 질문입니다!')
     }
   }
 

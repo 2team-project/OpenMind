@@ -66,3 +66,8 @@ export const NoQuestion = styled.div`
   margin-top: 2rem;
   margin-bottom: 5rem;
 `
+export const FloatingButtonWrapper = styled.div`
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+`

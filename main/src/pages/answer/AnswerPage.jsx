@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
+import media, { size } from '../../utils/media'
 import ButtonShare from '../../components/ButtonShare'
+import ButtonFloating from '../../components/ButtonFloating';
 import { getId, getQuestions } from '../../utils/apiUtils'
 import FeedCard from '../../components/FeedCard'
 
@@ -47,9 +49,20 @@ const ProfileName = styled.h2`
   color: var(--grayScale60);
 `
 
+const DeleteButton = styled(ButtonFloating)`
+
+`
+
 const QuestionsContainer = styled.div`
-  width: 80%;
-  margin-top: 20px;
+  display: flex;
+  width: 20.4375rem;
+  padding: 1rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  border-radius: 1rem;
+  border: 1px solid var(--Brown-20, #E4D5C9);
+  background: var(--Brown-10, #F5F1EE);
 `
 
 function AnswerPage() {
@@ -101,6 +114,12 @@ function AnswerPage() {
         <ProfileName>{subject.name}</ProfileName>
         <ButtonShare />
       </ProfileContainer>
+      <DeleteButton
+          label="삭제" 
+          width="4.375rem" height="1.5625rem" fontSize="0.625rem"
+          widthTablet="6.25rem" heightTablet="2.1875rem" fontSizeTablet="0.9375rem"
+          afterContent="하기"
+          />
       <QuestionsContainer>
         <h3>{subject.questionCount} 개의 질문이 있습니다</h3>
         {questions.length ? (

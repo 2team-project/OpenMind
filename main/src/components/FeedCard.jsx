@@ -4,7 +4,7 @@ import FeedCardQuestion from './FeedCardQuestion'
 import FeedCardAnswer from './FeedCardAnswer'
 import kebabImg from '/public/icons/more.svg'
 import Badge from './Badge'
-import { fetchQuestionsForQuestionId } from '../utils/apiUtils';
+import { fetchQuestionsForSubject } from '../utils/apiUtils';
 import ReactionLike from './ReactionLike'
 import ReactionHate from './ReactionHate'
 
@@ -13,13 +13,14 @@ const StyledDiv = styled.div`
   max-width: 684px;
   margin: 0 auto;
   border-radius: 1rem;
-  box-shadow: 0 4px 4px var(--grayScale40); //임시값임. shadow 2pt 적용해야함.
+  box-shadow: 0 4px 4px var(--grayScale40); // 임시값임. shadow 2pt 적용해야함.
 `
 
 const StyledMenubar = styled.div`
   display: flex;
   justify-content: space-between;
 `
+
 const StyledReactionLine = styled.div`
   display: flex;
   gap: 2rem;
@@ -32,6 +33,7 @@ const StyledKebabButton = styled.button`
   width: 24px;
   height: 24px;
 `
+
 const Margin = styled.div`
   height: 2rem;
 ` 
@@ -42,7 +44,7 @@ function FeedCardLayout({ questionId }) {
   const optionsRef = useRef(null);
 
   useEffect(() => {
-    fetchQuestionsForQuestionId(questionId)
+    fetchQuestionsForSubject(questionId)
       .then(data => {
         setQuestionData(data.results);
       })

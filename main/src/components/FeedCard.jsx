@@ -80,8 +80,8 @@ function FeedCard({ subject, question }) {
       <Margin />
       <FeedCardAnswer subject={subject} answer={answer} question={question} />
       <StyledReactionLine>
-        <ReactionLike />
-        <ReactionHate />
+        <ReactionLike question={question} />
+        <ReactionHate question={question} />
       </StyledReactionLine>
     </StyledDiv>
   )

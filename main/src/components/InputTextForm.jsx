@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import styled from 'styled-components'
 import { isRequired } from '../utils/validationUtils'
-
+import media, { size } from '../utils/media'
 const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
@@ -21,6 +21,8 @@ const TextArea = styled.textarea`
   &:focus {
     outline: 2px solid var(--brown40); /* 테두리 색상 변경 */
   }
+  ${media(size.tablet)`
+   font-size: 1.25rem `}
 `
 const SendButton = styled.button`
   width: 100%;

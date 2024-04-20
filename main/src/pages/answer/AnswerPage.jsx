@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import styled from 'styled-components'
 import media, { size } from '../../utils/media'
 import ButtonShare from '../../components/ButtonShare'
@@ -19,7 +19,7 @@ const PageContainer = styled.div`
   z-index: -1;
 `
 
-const Logo = styled.a`
+const Logo = styled(Link)`
   background-image: url('../../../public/images/logo.png');
   width: 15.5rem;
   height: 6rem;
@@ -29,6 +29,7 @@ const Logo = styled.a`
   margin: auto;
   margin-top: 1rem;
   margin-bottom: 1rem;
+  display: block;
 `
 
 const Header = styled.div`
@@ -78,6 +79,11 @@ const QuestionsContainer = styled.div`
   ${media(size.tablet)`
     width: 44rem;
 `}
+`
+
+const Icon = styled(MessagesIcon)`
+  height: 1.375rem;
+  width: 1.375rem;
 `
 
 const QuestionCount = styled.p`
@@ -139,7 +145,7 @@ function AnswerPage() {
 
   return (
     <PageContainer>
-      <Logo />
+      <Logo to="/" />
       <Header>
         <ProfileImage src={subject.imageSource} />
         <ProfileName>{subject.name}</ProfileName>
@@ -151,7 +157,7 @@ function AnswerPage() {
         </DeleteButtonContainer>
         <QuestionsContainer>
           <QuestionCount>
-            <MessagesIcon style={{ height: '1.375rem', width: '1.375rem' }} />
+            <Icon />
             {subject.questionCount} 개의 질문이 있습니다.
           </QuestionCount>
           {questions.length ? (

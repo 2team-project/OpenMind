@@ -21,8 +21,8 @@ const PageContainer = styled.div`
 
 const Logo = styled(Link)`
   background-image: url('../../../public/images/logo.png');
-  width: 15.5rem;
-  height: 6rem;
+  width: 7.75rem;
+  height: 3.0625rem;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -30,6 +30,10 @@ const Logo = styled(Link)`
   margin-top: 1rem;
   margin-bottom: 1rem;
   display: block;
+  ${media(size.tablet)`
+    width: 10.625rem;
+    height: 4.1875rem;
+  `}
 `
 
 const Header = styled.div`
@@ -47,8 +51,15 @@ const ProfileImage = styled.img`
 `
 
 const ProfileName = styled.h2`
+  color: var(--Grayscale-60, #000);
+  font-family: Actor;
   font-size: 1.5rem;
-  color: var(--grayScale60);
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.875rem ${media(size.tablet)`
+  font-size: 2rem;
+  line-height: 2.5rem;
+`};
 `
 
 const Body = styled.div`
@@ -82,6 +93,9 @@ const QuestionsContainer = styled.div`
 `
 
 const Icon = styled(MessagesIcon)`
+  path {
+    fill: #542f1a;
+  }
   height: 1.375rem;
   width: 1.375rem;
 `
@@ -91,15 +105,16 @@ const QuestionCount = styled.p`
   align-items: center;
   gap: 0.5rem;
   color: var(--Brown-40, #542f1a);
-  font-feature-settings:
-    'clig' off,
-    'liga' off;
   font-family: Actor;
   font-size: 1.125rem;
   font-style: normal;
   font-weight: 400;
   line-height: 1.5rem;
   height: 1.5rem;
+  ${media(size.tablet)`
+  font-size: 1.25rem;
+  line-height: 1.5625rem;
+`}
 `
 
 function AnswerPage() {

@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
+import media, { size } from '../../utils/media'
 import ButtonShare from '../../components/ButtonShare'
+import ButtonFloating from '../../components/ButtonFloating';
+import {ReactComponent as MessagesIcon} from '../../../public/icons/messages.svg';
 import { getId, getQuestions } from '../../utils/apiUtils'
 import FeedCard from '../../components/FeedCard'
 
@@ -47,10 +50,36 @@ const ProfileName = styled.h2`
   color: var(--grayScale60);
 `
 
+const DeleteButton = styled(ButtonFloating)``
+
 const QuestionsContainer = styled.div`
-  width: 80%;
-  margin-top: 20px;
+  display: flex;
+  width: 20.4375rem;
+  padding: 1rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  border-radius: 1rem;
+  border: 1px solid var(--Brown-20, #E4D5C9);
+  background: var(--Brown-10, #F5F1EE);
+  ${media(size.tablet)`
+    width: 44rem;
+`}
 `
+
+const QuestionCount = styled.p`
+display: flex;
+align-items: center;
+gap: 0.5rem;
+  color: var(--Brown-40, #542F1A);
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Actor;
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.5rem;
+  height: 1.5rem;
+`;
 
 function AnswerPage() {
   const { id } = useParams()
@@ -101,8 +130,17 @@ function AnswerPage() {
         <ProfileName>{subject.name}</ProfileName>
         <ButtonShare />
       </ProfileContainer>
+      <DeleteButton
+          label="삭제" 
+          width="4.375rem" height="1.5625rem" fontSize="0.625rem"
+          widthTablet="6.25rem" heightTablet="2.1875rem" fontSizeTablet="0.9375rem"
+          afterContent="하기"
+          />
       <QuestionsContainer>
-        <h3>{subject.questionCount} 개의 질문이 있습니다</h3>
+        <QuestionCount>
+          <MessagesIcon style={{ height: '1.375rem', width:'1.375rem'}} />
+          {subject.questionCount} 개의 질문이 있습니다.
+        </QuestionCount>
         {questions.length ? (
           questions.map((question) => (
             <FeedCard key={question.id} subject={subject} question={question} />

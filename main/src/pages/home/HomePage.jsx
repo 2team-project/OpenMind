@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import ButtonDoQuestion from './ButtonDoQuestion'
 import media, { size } from '../../utils/media'
 import LoginForm from './LoginForm'
+import { Link } from 'react-router-dom'
 
 const Container = styled.div`
   display: flex;
@@ -61,7 +62,9 @@ function HomePage() {
     <Container>
       <Hero>
         <Logo />
-        <ButtonDoQuestion />
+        <Link to="/list">
+          <ButtonDoQuestion />
+        </Link>
       </Hero>
       <LoginForm />
       <Footer />

@@ -1,4 +1,5 @@
-import ListLogo from '../../components/ListLogo'
+import { Link } from 'react-router-dom'
+import ListLogo from '../list/ListLogo'
 import ButtonAnswer from '../../components/ButtonAnswer'
 import * as S from '../../components/listStyled'
 
@@ -6,8 +7,12 @@ function ListNav() {
   return (
     <S.NavContainer>
       <S.NavDisplay>
-        <ListLogo />
-        <ButtonAnswer />
+        <Link to="/">
+          <ListLogo />
+        </Link>
+        <Link to="/post/:id/answer">
+          <ButtonAnswer />
+        </Link>
       </S.NavDisplay>
     </S.NavContainer>
   )

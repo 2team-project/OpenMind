@@ -1,8 +1,26 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import * as S from './listStyled'
 
 function DropDownButton({ value, onChange }) {
   const [showDropdown, setShowDropdown] = useState(false)
+  const dropButtonRef = useRef(null)
+
+  //DropDownButton 이외의 요소를 누를 때 버튼 끄기
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        dropButtonRef.current &&
+        !dropButtonRef.current.contains(event.target)
+      ) {
+        setShowDropdown(false)
+      }
+    }
+
+    document.addEventListener('click', handleClickOutside)
+    return () => {
+      document.removeEventListener('click', handleClickOutside)
+    }
+  }, [])
 
   const handleSort = (value) => {
     onChange(value)
@@ -12,6 +30,7 @@ function DropDownButton({ value, onChange }) {
   return (
     <S.DropButtonContainer>
       <S.DropDownButtonStyled
+        ref={dropButtonRef}
         $show={showDropdown.toString()}
         onClick={() => setShowDropdown(!showDropdown)}
       >

@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import media, { size } from '../../utils/media'
 import ButtonShare from '../../components/ButtonShare'
 import ButtonFloating from '../../components/ButtonFloating';
+import {ReactComponent as MessagesIcon} from '../../../public/icons/messages.svg';
 import { getId, getQuestions } from '../../utils/apiUtils'
 import FeedCard from '../../components/FeedCard'
 
@@ -49,9 +50,7 @@ const ProfileName = styled.h2`
   color: var(--grayScale60);
 `
 
-const DeleteButton = styled(ButtonFloating)`
-
-`
+const DeleteButton = styled(ButtonFloating)``
 
 const QuestionsContainer = styled.div`
   display: flex;
@@ -63,7 +62,24 @@ const QuestionsContainer = styled.div`
   border-radius: 1rem;
   border: 1px solid var(--Brown-20, #E4D5C9);
   background: var(--Brown-10, #F5F1EE);
+  ${media(size.tablet)`
+    width: 44rem;
+`}
 `
+
+const QuestionCount = styled.p`
+display: flex;
+align-items: center;
+gap: 0.5rem;
+  color: var(--Brown-40, #542F1A);
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Actor;
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.5rem;
+  height: 1.5rem;
+`;
 
 function AnswerPage() {
   const { id } = useParams()
@@ -121,7 +137,10 @@ function AnswerPage() {
           afterContent="하기"
           />
       <QuestionsContainer>
-        <h3>{subject.questionCount} 개의 질문이 있습니다</h3>
+        <QuestionCount>
+          <MessagesIcon style={{ height: '1.375rem', width:'1.375rem'}} />
+          {subject.questionCount} 개의 질문이 있습니다.
+        </QuestionCount>
         {questions.length ? (
           questions.map((question) => (
             <FeedCard key={question.id} subject={subject} question={question} />

@@ -3,15 +3,14 @@ import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import media, { size } from '../../utils/media'
 import ButtonShare from '../../components/ButtonShare'
-import ButtonFloating from '../../components/ButtonFloating';
-import {ReactComponent as MessagesIcon} from '../../../public/icons/messages.svg';
+import DeleteButton from './DeleteButton'
+import { ReactComponent as MessagesIcon } from '../../../public/icons/messages.svg'
 import { getId, getQuestions } from '../../utils/apiUtils'
 import FeedCard from '../../components/FeedCard'
 
 const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
   width: 100%;
   min-height: 100vh;
   background-image: url('../../images/backgroundImg.png');
@@ -27,11 +26,12 @@ const Logo = styled.a`
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+  margin: auto;
   margin-top: 1rem;
   margin-bottom: 1rem;
 `
 
-const ProfileContainer = styled.div`
+const Header = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -50,7 +50,20 @@ const ProfileName = styled.h2`
   color: var(--grayScale60);
 `
 
-const DeleteButton = styled(ButtonFloating)``
+const Body = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+`
+
+const DeleteButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 1.44rem;
+  margin-bottom: 0.37rem;
+`
 
 const QuestionsContainer = styled.div`
   display: flex;
@@ -60,26 +73,28 @@ const QuestionsContainer = styled.div`
   align-items: center;
   gap: 1rem;
   border-radius: 1rem;
-  border: 1px solid var(--Brown-20, #E4D5C9);
-  background: var(--Brown-10, #F5F1EE);
+  border: 1px solid var(--Brown-20, #e4d5c9);
+  background: var(--Brown-10, #f5f1ee);
   ${media(size.tablet)`
     width: 44rem;
 `}
 `
 
 const QuestionCount = styled.p`
-display: flex;
-align-items: center;
-gap: 0.5rem;
-  color: var(--Brown-40, #542F1A);
-  font-feature-settings: 'clig' off, 'liga' off;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--Brown-40, #542f1a);
+  font-feature-settings:
+    'clig' off,
+    'liga' off;
   font-family: Actor;
   font-size: 1.125rem;
   font-style: normal;
   font-weight: 400;
   line-height: 1.5rem;
   height: 1.5rem;
-`;
+`
 
 function AnswerPage() {
   const { id } = useParams()
@@ -125,30 +140,33 @@ function AnswerPage() {
   return (
     <PageContainer>
       <Logo />
-      <ProfileContainer>
+      <Header>
         <ProfileImage src={subject.imageSource} />
         <ProfileName>{subject.name}</ProfileName>
         <ButtonShare />
-      </ProfileContainer>
-      <DeleteButton
-          label="삭제" 
-          width="4.375rem" height="1.5625rem" fontSize="0.625rem"
-          widthTablet="6.25rem" heightTablet="2.1875rem" fontSizeTablet="0.9375rem"
-          afterContent="하기"
-          />
-      <QuestionsContainer>
-        <QuestionCount>
-          <MessagesIcon style={{ height: '1.375rem', width:'1.375rem'}} />
-          {subject.questionCount} 개의 질문이 있습니다.
-        </QuestionCount>
-        {questions.length ? (
-          questions.map((question) => (
-            <FeedCard key={question.id} subject={subject} question={question} />
-          ))
-        ) : (
-          <p>답변된 질문이 없습니다.</p>
-        )}
-      </QuestionsContainer>
+      </Header>
+      <Body>
+        <DeleteButtonContainer>
+          <DeleteButton />
+        </DeleteButtonContainer>
+        <QuestionsContainer>
+          <QuestionCount>
+            <MessagesIcon style={{ height: '1.375rem', width: '1.375rem' }} />
+            {subject.questionCount} 개의 질문이 있습니다.
+          </QuestionCount>
+          {questions.length ? (
+            questions.map((question) => (
+              <FeedCard
+                key={question.id}
+                subject={subject}
+                question={question}
+              />
+            ))
+          ) : (
+            <p>답변된 질문이 없습니다.</p>
+          )}
+        </QuestionsContainer>
+      </Body>
     </PageContainer>
   )
 }

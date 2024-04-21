@@ -2,35 +2,57 @@ import { useState } from 'react'
 import styled from 'styled-components'
 import { isRequired } from '../utils/validationUtils'
 import media, { size } from '../utils/media'
+
 const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  flex-grow: 1; /* 남은 공간을 모두 차지 */
+  align-items: flex-start;
+  width: 100%;
+  gap: 0.5rem;
+  align-self: stretch;
 `
-const TextArea = styled.textarea`
-  flex-grow: 1;
-  min-height: 11.25rem;
-  background-color: var(--grayScale20);
-  resize: none;
-  border-radius: 8px;
-  border: none;
+
+const InputArea = styled.textarea`
+  display: flex;
+  height: 8.75rem;
+  width: 100%;
   padding: 1rem;
-  font-size: 1rem;
-  /* 포커스가 되었을 때 */
+  align-items: flex-start;
+  gap: 0.625rem;
+  flex-shrink: 0;
+  border: none;
+  resize: none;
+  background: var(--Grayscale-20, #f9f9f9);
+  color: var(--Grayscale-40, #818181);
   &:focus {
-    outline: 2px solid var(--brown40); /* 테두리 색상 변경 */
+    color: var(--Grayscale-60, #000);
+    border: 1px solid var(--Brown-40, #542f1a);
   }
   ${media(size.tablet)`
-   font-size: 1.25rem `}
+    height: 11.625rem;
+    justify-content: center;
+    align-items: center;
+    align-self: stretch;
+  `}
 `
+
 const SendButton = styled.button`
+  display: flex;
   width: 100%;
   height: 2.875rem;
-  border-radius: 8px;
-  margin-top: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.625rem;
+  align-self: stretch;
+  border-radius: 0.5rem;
+  background: var(--Brown-30, #c7bbb5);
+  color: var(--Grayscale-10, #fff);
   font-size: 1rem;
-  color: white;
+  line-height: 1.375rem;
+  ${media(size.tablet)`
+    gap: 0.5rem;
+  `}
 `
 
 //placeholder에 input의 입력 전 기본값,
@@ -61,11 +83,11 @@ function InputTextForm({
 
   return (
     <StyledForm onSubmit={handleSubmit}>
-      <TextArea
+      <InputArea
         onChange={handleInputChange}
         placeholder={placeholder}
         value={text}
-      ></TextArea>
+      ></InputArea>
       <SendButton type="submit" style={{ backgroundColor: buttonColor }}>
         {buttonText}
       </SendButton>

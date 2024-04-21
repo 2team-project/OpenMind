@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import * as S from '../../components/listStyled'
 import MoreIcon from '../../../public/icons/more.svg'
 
-function DropdownForAnswer() {
+function DropdownForAnswer({ onEdit, onReject, onDelete }) {
   const [showDropdown, setShowDropdown] = useState(false)
   const dropdownRef = useRef()
 
@@ -40,13 +40,13 @@ function DropdownForAnswer() {
       </S.DropDownButtonStyled>
       {showDropdown && (
         <S.DropDownContent $show={showDropdown.toString()}>
-          <S.DropDownItem onClick={() => console.log('수정하기')}>
+          <S.DropDownItem onClick={onEdit}>
             수정하기
           </S.DropDownItem>
-          <S.DropDownItem onClick={() => console.log('거절하기')}>
+          <S.DropDownItem onClick={onReject}>
             거절하기
           </S.DropDownItem>
-          <S.DropDownItem onClick={() => console.log('삭제하기')}>
+          <S.DropDownItem onClick={onDelete}>
             삭제하기
           </S.DropDownItem>
         </S.DropDownContent>

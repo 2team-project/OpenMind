@@ -97,15 +97,28 @@ function FeedCardAnswer({
   subject,
   question,
   isAnswerPage = false,
-  editing = false,
+  editing,
+  setEditing,
 }) {
-  const [answerContent, setAnswerContent] = useState(null)
+  const [answerContent, setAnswerContent] = useState(
+    question.answer?.content || ''
+  )
   const [isRejected, setIsRejected] = useState(false)
   const [isAnswered, setIsAnswered] = useState(false)
   const [answer, setAnswer] = useState(null)
   const [answerCreatedTime, setAnswerCreatedTime] = useState('')
 
   const showCreatedTime = !editing || !isAnswered
+
+  const handleSaveEdit = async () => {
+    try {
+      await updateAnswer(question.id, answerContent);
+      console.log('Answer updated');
+      setEditing(false); // Turn off editing mode after save
+    } catch (error) {
+      console.error('Failed to update answer:', error);
+    }
+  };
 
   useEffect(() => {
     setAnswer(question.answer ?? null)
@@ -142,6 +155,7 @@ function FeedCardAnswer({
               placeholder="답변을 입력해주세요"
               buttonText="수정 완료"
               value={answerContent}
+              onChange={(e) => setAnswerContent(e.target.value)}
               onSubmit={(e) => setAnswerContent(e.target.value)}
               action={editButtonOnClick}
             />

@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import media, { size } from '../../utils/media'
 
 const DeleteAllButton = styled.button`
-  width: 5.5rem; 
+  width: 6rem; 
   height: 1.5625rem;
   color: var(--Grayscale-10, #FFF);
   font-family: Pretendard;

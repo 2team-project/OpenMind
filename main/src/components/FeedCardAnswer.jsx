@@ -119,12 +119,13 @@ function FeedCardAnswer({
     }
   }, [isAnswered, answer?.isRejected])
 
-  //수정하기 버튼 동작
+  // 수정하기 버튼 동작
   const editButtonOnClick = async (content) => {
     console.log(content)
     await updateAnswer(question.id, content, isRejected)
   }
-  //답변하기 버튼 동작
+
+  // 답변하기 버튼 동작
   const answerButtonOnClick = async (content) => {
     console.log(content)
     await createAnswer(question.id, content, isRejected)
@@ -145,9 +146,9 @@ function FeedCardAnswer({
               placeholder="답변을 입력해주세요"
               buttonText="수정 완료"
               value={answerContent}
-              onChange={(e) => setAnswerContent(e.target.value)}
-              onSubmit={(e) => setAnswerContent(e.target.value)}
-              action={editButtonOnClick}
+              onSubmit={(text) => {
+                editButtonOnClick(text)
+              }}
             />
           </SubjectProfile>
         </StyledAnswer>

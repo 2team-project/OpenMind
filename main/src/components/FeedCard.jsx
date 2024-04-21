@@ -45,8 +45,6 @@ const StyledReactionLine = styled.div`
 // subject : 답변자의 정보/ getId의 결과값을 넣어주세요.
 // question : 질문 목록 배열의 한 질문(객체)만 넣어주세요.
 function FeedCard({ subject, question }) {
-  const [isKebabOpen, setIsKebabOpen] = useState(false)
-  const optionsRef = useRef(null)
   const [editing, setEditing] = useState(false);
   const location = useLocation()
   const pathname = location.pathname
@@ -63,13 +61,9 @@ function FeedCard({ subject, question }) {
   }
 
   const handleReject = () => {
-
     console.log('거절 동작')
   }
 
-  const handleDelete = () => {
-    console.log('삭제 동작')
-  }
 
   return (
     <StyledDiv>
@@ -79,10 +73,8 @@ function FeedCard({ subject, question }) {
           <DropdownForAnswer
             onEdit={handleEdit}
             onReject={handleReject}
-            onDelete={handleDelete}
           />
         )}
-        {/* Dropdown 현재 구현 중입니다. 여기에서 버튼들의 동작 콜백들 prop으로 내리고 editing상태를 FeedCardAnswer에 업데이트해야합니다. */}
       </StyledMenubar>
       <FeedCardQuestion question={question} />
       <FeedCardAnswer

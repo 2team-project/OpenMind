@@ -110,16 +110,6 @@ function FeedCardAnswer({
 
   const showCreatedTime = !editing || !isAnswered
 
-  const handleSaveEdit = async () => {
-    try {
-      await updateAnswer(question.id, answerContent);
-      console.log('Answer updated');
-      setEditing(false); // Turn off editing mode after save
-    } catch (error) {
-      console.error('Failed to update answer:', error);
-    }
-  };
-
   useEffect(() => {
     setAnswer(question.answer ?? null)
     setIsAnswered(answer !== null)

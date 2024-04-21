@@ -71,8 +71,6 @@ function FeedCard({ subject, question }) {
       <StyledMenubar>
         {/* 답변상태를 표시합니다. */}
         <Badge isAnswered={isAnswered} />
-
-        {/* 케밥버튼은 AnswerPage에서만 렌더링됩니다. */}
         {isAnswerPage && (
           <DropdownForAnswer
             onClick={handleKebabToggle}
@@ -80,7 +78,7 @@ function FeedCard({ subject, question }) {
           />
         )}
         {/* Dropdown 현재 미구현입니다. 여기에서 버튼들의 동작 콜백들 prop으로 내리고 editing상태를 FeedCardAnswer에 업데이트해야합니다. */}
-        {isKebabOpen && <Dropdown />}
+        {isKebabOpen && <DropdownForAnswer />}
       </StyledMenubar>
       {/* 질문 내용과 작성 시간이 표시됩니다. */}
       <FeedCardQuestion question={question} />

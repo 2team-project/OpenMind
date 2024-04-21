@@ -20,7 +20,7 @@ const DeleteAllButton = styled.button`
   justify-content: center;
 
   &:after {
-    content: '전체 질문 삭제하기';
+    content: '모든 질문 삭제하기';
     font-size: inherit;
   }
 

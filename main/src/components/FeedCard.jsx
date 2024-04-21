@@ -7,8 +7,7 @@ import FeedCardAnswer from './FeedCardAnswer'
 import Badge from './Badge'
 import ReactionLike from './ReactionLike'
 import ReactionHate from './ReactionHate'
-import kebabImg from '/public/icons/more.svg'
-import { getAnswer } from '../utils/apiUtils'
+import DropdownForAnswer  from '../pages/answer/DropDownForAnswer'
 
 const StyledDiv = styled.div`
   display: flex;
@@ -41,12 +40,6 @@ const StyledReactionLine = styled.div`
   border-top: 1px solid var(--grayScale30);
   padding-top: 1rem;
   width:100%;
-`
-const StyledKebabButton = styled.button`
-  background: url(${kebabImg}) no-repeat center;
-  background-size: contain;
-  width: 24px;
-  height: 24px;
 `
 
 // subject : 답변자의 정보/ getId의 결과값을 넣어주세요.
@@ -81,7 +74,7 @@ function FeedCard({ subject, question }) {
 
         {/* 케밥버튼은 AnswerPage에서만 렌더링됩니다. */}
         {isAnswerPage && (
-          <StyledKebabButton
+          <DropdownForAnswer
             onClick={handleKebabToggle}
             onBlur={handleKebabClose}
           />

@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 import media, { size } from '../../utils/media'
 
-const DeleteButton = styled.button`
-  width: 4.375rem; 
+const DeleteAllButton = styled.button`
+  width: 5.5rem; 
   height: 1.5625rem;
   color: var(--Grayscale-10, #FFF);
   font-family: Pretendard;
@@ -20,15 +20,15 @@ const DeleteButton = styled.button`
   justify-content: center;
 
   &:after {
-    content: '삭제하기';
+    content: '전체 질문 삭제하기';
     font-size: inherit;
   }
 
   ${media(size.tablet)` 
-    width: 6.25rem;
+    width: 10rem;
     height: 2.1875rem;
     font-size: 0.9375rem;
   `}
 `;
 
-export default DeleteButton
+export default DeleteAllButton

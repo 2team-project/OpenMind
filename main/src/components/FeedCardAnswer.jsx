@@ -27,7 +27,8 @@ const StyledProfile = styled.img`
   border-radius: 999px;
   ${media(size.tablet)`
    width: 3rem;
-   height: 3rem; `}
+   height: 3rem; 
+  `}
 `
 const StyledDiv = styled.div`
   display: flex;

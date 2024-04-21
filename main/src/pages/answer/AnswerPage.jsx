@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import styled from 'styled-components'
 import media, { size } from '../../utils/media'
 import ButtonShare from '../../components/ButtonShare'
-import DeleteButton from './DeleteButton'
+import DeleteAllButton from './DeleteAllButton'
 import { ReactComponent as MessagesIcon } from '../../../public/icons/messages.svg'
 import { getId, getQuestions } from '../../utils/apiUtils'
 import FeedCard from '../../components/FeedCard'
@@ -97,7 +97,7 @@ const QuestionsContainer = styled.div`
   `}
 `
 
-const Icon = styled(MessagesIcon)`
+const MessageIcon = styled(MessagesIcon)`
   path {
     fill: #542f1a;
   }
@@ -179,11 +179,11 @@ function AnswerPage() {
       </Header>
       <Body>
         <DeleteButtonContainer>
-          <DeleteButton />
+          <DeleteAllButton />
         </DeleteButtonContainer>
         <QuestionsContainer>
           <QuestionCount>
-            <Icon />
+            <MessageIcon />
             {subject.questionCount}개의 질문이 있습니다.
           </QuestionCount>
           {questions.length ? (

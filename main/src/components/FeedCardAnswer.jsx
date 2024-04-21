@@ -122,7 +122,7 @@ function FeedCardAnswer({
   // 수정하기 버튼 동작
   const editButtonOnClick = async (content) => {
     console.log(content)
-    await updateAnswer(question.id, content, isRejected)
+    await updateAnswer(answer.id, content, isRejected)
   }
 
   // 답변하기 버튼 동작

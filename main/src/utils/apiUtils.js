@@ -30,8 +30,8 @@ export const createAnswer = async (questionId, content, isRejected) => {
 }
 
 // 답변을 수정하는 API 함수
-export const updateAnswer = async (questionId, content, isRejected) => {
-  const url = `${BASE_URL}/answers/${questionId}/`
+export const updateAnswer = async (answerId, content, isRejected) => {
+  const url = `${BASE_URL}/answers/${answerId}/`
   const response = await fetch(url, {
     method: 'PUT',
     headers: getHeaders(),

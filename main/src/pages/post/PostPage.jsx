@@ -5,6 +5,9 @@ import { useParams } from 'react-router-dom'
 import { getId, getQuestions } from '../../utils/apiUtils'
 import * as S from './PostPageStyled'
 import ButtonFloating from '../../components/ButtonFloating'
+import styled from 'styled-components'
+
+const QuestionCard = styled(FeedCard)``
 
 function PostPage() {
   const { id } = useParams()
@@ -74,7 +77,7 @@ function PostPage() {
     }
   }, [loading, hasMore])
 
-  if (loading && page === 1) return <p>Loading...</p>
+  // if (loading && page === 1) return <p>Loading...</p>
   if (error) return <p>Error: {error}</p>
   if (!subject) {
     return <p>해당 id의 정보가 없습니다.</p>
@@ -89,6 +92,29 @@ function PostPage() {
         <ButtonShare />
       </S.ProfileContainer>
       <S.QuestionsContainer>
+        <S.QuestionCount>
+          <S.MessageIcon />
+          {subject.questionCount}개의 질문이 있습니다.
+        </S.QuestionCount>
+        {questions.length ? (
+          questions.map((question, index) => {
+            const key = `${question.id}_${index}` // 고유한 키 생성 (안 하고 qusetion.id로 key 설정하면 로드될때 warning 겁나 뜸)
+            if (questions.length === index + 1) {
+              return (
+                <div ref={lastQuestionElementRef} key={key}>
+                  <FeedCard subject={subject} question={question} />
+                </div>
+              )
+            } else {
+              return (
+                <FeedCard key={key} subject={subject} question={question} />
+              )
+            }
+          })
+        ) : (
+          <p>답변된 질문이 없습니다.</p>
+        )}
+        {/* 
         {questions.map((question, index) => {
           const key = `${question.id}_${index}` // 고유한 키 생성 (안 하고 qusetion.id로 key 설정하면 로드될때 warning 겁나 뜸)
           if (questions.length === index + 1) {
@@ -100,8 +126,9 @@ function PostPage() {
           } else {
             return <FeedCard key={key} subject={subject} question={question} />
           }
-        })}
+        })} */}
         {loading && <p>로딩중...</p>}
+
         <S.FloatingButtonWrapper>
           <ButtonFloating />
         </S.FloatingButtonWrapper>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { useLocation } from 'react-router-dom'
 import styled from 'styled-components'
+import media, { size } from '../utils/media'
 import FeedCardQuestion from './FeedCardQuestion'
 import FeedCardAnswer from './FeedCardAnswer'
 import Badge from './Badge'
@@ -10,16 +11,28 @@ import kebabImg from '/public/icons/more.svg'
 import { getAnswer } from '../utils/apiUtils'
 
 const StyledDiv = styled.div`
+  display: flex;
+  width: 100%;
+  height: auto;
   padding: 1.5rem;
-  max-width: 684px;
-  margin: 0 auto;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.5rem;
+  align-self: stretch;
   border-radius: 1rem;
-  box-shadow: 0 4px 4px var(--grayScale40); // 임시값임. shadow 2pt 적용해야함.
+  background: var(--Grayscale-10, #fff);
+  box-shadow: 0px 4px 4px 0px rgba(140, 140, 140, 0.25);
+  ${media(size.tablet)`
+    padding: 2rem;
+    gap: 2rem;
+  `}
 `
 
 const StyledMenubar = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
 `
 
 const StyledReactionLine = styled.div`
@@ -27,16 +40,13 @@ const StyledReactionLine = styled.div`
   gap: 2rem;
   border-top: 1px solid var(--grayScale30);
   padding-top: 1rem;
+  width:100%;
 `
 const StyledKebabButton = styled.button`
   background: url(${kebabImg}) no-repeat center;
   background-size: contain;
   width: 24px;
   height: 24px;
-`
-
-const Margin = styled.div`
-  height: 2rem;
 `
 
 // subject : 답변자의 정보/ getId의 결과값을 넣어주세요.
@@ -79,12 +89,8 @@ function FeedCard({ subject, question }) {
         {/* Dropdown 현재 미구현입니다. 여기에서 버튼들의 동작 콜백들 prop으로 내리고 editing상태를 FeedCardAnswer에 업데이트해야합니다. */}
         {isKebabOpen && <Dropdown />}
       </StyledMenubar>
-      <Margin />
-
       {/* 질문 내용과 작성 시간이 표시됩니다. */}
       <FeedCardQuestion question={question} />
-      <Margin />
-
       {/* 답변 내용이 표시됩니다. */}
       <FeedCardAnswer
         isAnswerPage={isAnswerPage}
@@ -93,8 +99,6 @@ function FeedCard({ subject, question }) {
         editing={false}
         // editing값은 state화 해서 사용해야합니다. 케밥버튼 기능 추가시 변경하겠습니다.
       />
-      <Margin />
-
       {/* 좋아요와 싫어요 버튼이 표시됩니다. */}
       <StyledReactionLine>
         <ReactionLike question={question} />

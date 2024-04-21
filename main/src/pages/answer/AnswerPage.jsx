@@ -45,9 +45,13 @@ const Header = styled.div`
 `
 
 const ProfileImage = styled.img`
-  width: 100px;
-  height: 100px;
+  width: 6.5rem;
+  height: 6.5rem;
   border-radius: 50%;
+  ${media(size.tablet)`
+    width: 8.5rem;
+    height: 8.5rem;
+  `}
 `
 
 const ProfileName = styled.h2`
@@ -88,8 +92,9 @@ const QuestionsContainer = styled.div`
   border: 1px solid var(--Brown-20, #e4d5c9);
   background: var(--Brown-10, #f5f1ee);
   ${media(size.tablet)`
-    width: 44rem;
-`}
+    width: 44rem;  
+    border: 1px solid var(--Brown-30, #C7BBB5);
+  `}
 `
 
 const Icon = styled(MessagesIcon)`
@@ -98,6 +103,10 @@ const Icon = styled(MessagesIcon)`
   }
   height: 1.375rem;
   width: 1.375rem;
+  ${media(size.tablet)`
+    width: 1.5rem;
+    height: 1.5rem;
+  `}
 `
 
 const QuestionCount = styled.p`
@@ -116,6 +125,8 @@ const QuestionCount = styled.p`
   line-height: 1.5625rem;
 `}
 `
+
+const QuestionCard = styled(FeedCard)``
 
 function AnswerPage() {
   const { id } = useParams()
@@ -173,11 +184,11 @@ function AnswerPage() {
         <QuestionsContainer>
           <QuestionCount>
             <Icon />
-            {subject.questionCount} 개의 질문이 있습니다.
+            {subject.questionCount}개의 질문이 있습니다.
           </QuestionCount>
           {questions.length ? (
             questions.map((question) => (
-              <FeedCard
+              <QuestionCard
                 key={question.id}
                 subject={subject}
                 question={question}

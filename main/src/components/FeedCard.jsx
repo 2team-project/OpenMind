@@ -8,7 +8,7 @@ import Badge from './Badge'
 import ReactionLike from './ReactionLike'
 import ReactionHate from './ReactionHate'
 import kebabImg from '/public/icons/more.svg'
-import { getAnswer } from '../utils/apiUtils'
+import { updateAnswer, createAnswer } from '../utils/apiUtils'
 import DropdownForAnswer from '../pages/answer/DropDownForAnswer'
 
 export const StyledDiv = styled.div`
@@ -70,7 +70,12 @@ function FeedCard({ subject, question }) {
     console.log('수정 동작')
   }
 
-  const handleReject = () => {
+  const handleReject = async () => {
+    if (isAnswered) {
+      await updateAnswer(question.answer.id, '거절된 질문입니다', true)
+    } else {
+      await createAnswer(question.id, '거절된 질문입니다', true)
+    }
     console.log('거절 동작')
   }
 

@@ -118,12 +118,12 @@ function FeedCardAnswer({
   //수정하기 버튼 동작
   const editButtonOnClick = async (content) => {
     console.log(content)
-    await updateAnswer(answer.id, content, isRejected)
+    await updateAnswer(answer.id, content, false)
   }
   //답변하기 버튼 동작
   const answerButtonOnClick = async (content) => {
     console.log(content)
-    await createAnswer(question.id, content, isRejected)
+    await createAnswer(question.id, content, false)
   }
 
   // 답변을 한 경우

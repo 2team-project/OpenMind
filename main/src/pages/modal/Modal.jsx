@@ -4,7 +4,6 @@ import ModalSecondLine from './components/ModalSecondLine'
 import InputTextForm from '../../components/InputTextForm'
 import media, { size } from '/src/utils/media'
 import { createQuestion } from '../../utils/apiUtils'
-import { useState } from 'react'
 const ModalPage = styled.div`
   position: absolute;
   display: flex;
@@ -40,21 +39,11 @@ const Margin = styled.div`
   height: 1.5rem;
 `
 
-function Modal({ onClose, subject, updateQuestions }) {
-  const [loading, setLoading] = useState(false)
-
+function Modal({ onClose, subject, setNeedRefresh }) {
   async function onSubmit(text) {
-    setLoading(true)
-    try {
-      await createQuestion(subject?.id, text)
-      updateQuestions() // 질문 보내고 나서 questions 업데이트 요청
-      onClose() // 모달 닫기
-    } catch (error) {
-      console.error('질문 보내기 실패:', error)
-      // 오류 처리
-    } finally {
-      setLoading(false)
-    }
+    const response = await createQuestion(subject?.id, text)
+    setNeedRefresh(response)
+    onClose()
   }
 
   return (

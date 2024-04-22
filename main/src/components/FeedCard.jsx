@@ -8,7 +8,7 @@ import Badge from './Badge'
 import ReactionLike from './ReactionLike'
 import ReactionHate from './ReactionHate'
 import kebabImg from '/public/icons/more.svg'
-import { getAnswer } from '../utils/apiUtils'
+import { updateAnswer, createAnswer } from '../utils/apiUtils'
 import DropdownForAnswer from '../pages/answer/DropDownForAnswer'
 
 export const StyledDiv = styled.div`
@@ -46,7 +46,7 @@ const StyledReactionLine = styled.div`
 
 // subject : 답변자의 정보/ getId의 결과값을 넣어주세요.
 // question : 질문 목록 배열의 한 질문(객체)만 넣어주세요.
-function FeedCard({ subject, question }) {
+function FeedCard({ subject, question, setNeedRefresh }) {
   const [editing, setEditing] = useState(false)
   const [isAnswerPage, setIsAnswerPage] = useState(false)
 
@@ -63,21 +63,32 @@ function FeedCard({ subject, question }) {
     pageState()
   }, [location])
 
-  const isAnswered = question.answer !== null
+  const $isAnswered = question.answer !== null
 
   const handleEdit = () => {
     setEditing(true)
     console.log('수정 동작')
   }
 
-  const handleReject = () => {
+  const handleReject = async () => {
+    if ($isAnswered) {
+      const answer = await updateAnswer(
+        question.answer.id,
+        '거절된 질문입니다',
+        true
+      )
+      setNeedRefresh(answer)
+    } else {
+      const answer = await createAnswer(question.id, '거절된 질문입니다', true)
+      setNeedRefresh(answer)
+    }
     console.log('거절 동작')
   }
 
   return (
     <StyledDiv>
       <StyledMenubar>
-        <Badge isAnswered={isAnswered} />
+        <Badge $isAnswered={$isAnswered} />
         {isAnswerPage && (
           <DropdownForAnswer onEdit={handleEdit} onReject={handleReject} />
         )}
@@ -88,6 +99,7 @@ function FeedCard({ subject, question }) {
         subject={subject}
         question={question}
         editing={editing}
+        setNeedRefresh={setNeedRefresh}
       />
       <StyledReactionLine>
         <ReactionLike question={question} />

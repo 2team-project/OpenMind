@@ -33,6 +33,7 @@ function PostPage() {
   const [totalQuestions, setTotalQuestions] = useState(0) // 전체 질문 개수
   const [isModalOpen, setIsModalOpen] = useState(false) //모달 창 표시 여부
   const [toastMessage, setToastMessage] = useState('')
+  const [needRefresh, setNeedRefresh] = useState(null) //리렌더링 필요시 값을 변경시켜서 사용
 
   const observer = useRef(null)
   const lastQuestionElementRef = useRef(null)
@@ -57,6 +58,44 @@ function PostPage() {
       loadSubject()
     }
   }, [id])
+
+  //질문 새로고침 로직
+  useEffect(() => {
+    async function refreshQuestions() {
+      try {
+        // 화면 최상단으로 이동
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+
+        setLoading(true)
+        // 무한 스크롤 초기화
+        if (observer.current) {
+          observer.current.disconnect()
+        }
+
+        // 질문 목록 다시 불러오기. 페이지는 1로 초기화
+        // page 기본값이 1이고, 변동시에 아래있는 useEffect에 의해서 페이지를 불러옵니다.
+        // state에 변동이 없으면 questions 값을 가져오지 않기 때문에 1일 경우의 예외처리를 하였습니다.
+        setQuestions([])
+        if (page === 1) {
+          const response = await getQuestions(id, page)
+          const newQuestions = response.results
+          setQuestions((prevQuestions) => [...prevQuestions, ...newQuestions])
+          setTotalQuestions(response.count)
+        } else {
+          setPage(1)
+        }
+      } catch (err) {
+        console.error('질문 목록 실패: ', err)
+        setError('질문목록 불러오기 실패')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    if (needRefresh !== null) {
+      refreshQuestions()
+    }
+  }, [needRefresh])
 
   useEffect(() => {
     async function loadQuestions() {
@@ -173,7 +212,7 @@ function PostPage() {
         <Modal
           onClose={switchModalOpen}
           subject={subject}
-          updateQuestions={updateQuestions}
+          setNeedRefresh={setNeedRefresh}
         />
       )}
       {toastMessage && <ToastMessage message={toastMessage} />}

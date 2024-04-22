@@ -5,7 +5,12 @@ import media, { size } from '../../utils/media'
 import ButtonShare from '../../components/ButtonShare'
 import DeleteAllButton from './DeleteAllButton'
 import { ReactComponent as MessagesIcon } from '../../../public/icons/messages.svg'
-import { getId, getQuestions, deleteQuestion } from '../../utils/apiUtils'
+import {
+  getId,
+  getQuestions,
+  deleteQuestion,
+  getQuestionDetails,
+} from '../../utils/apiUtils'
 import FeedCard from '../../components/FeedCard'
 
 const PageContainer = styled.div`
@@ -139,6 +144,7 @@ function AnswerPage() {
   const [error, setError] = useState(null)
   const [page, setPage] = useState(1) // 페이지 수
   const [totalQuestions, setTotalQuestions] = useState(0) // 전체 질문 개수
+  const [needRefresh, setNeedRefresh] = useState(null) //리렌더링 필요시 값을 변경시켜서 사용
 
   const observer = useRef(null)
   const lastQuestionElementRef = useRef(null)
@@ -158,6 +164,32 @@ function AnswerPage() {
       loadSubject()
     }
   }, [id])
+
+  //질문 새로고침 로직
+  useEffect(() => {
+    async function refreshQuestions() {
+      try {
+        setLoading(true)
+        const questionId = needRefresh.questionId
+        const refreshedQuestion = await getQuestionDetails(questionId)
+        const refreshedQuestions = questions.map((question) => {
+          if (question.id === questionId) {
+            return refreshedQuestion
+          }
+          return question
+        })
+        setQuestions([...refreshedQuestions])
+      } catch (err) {
+        console.err('새로고침 실패', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    if (needRefresh !== null) {
+      refreshQuestions()
+    }
+  }, [needRefresh])
 
   useEffect(() => {
     async function loadQuestions() {
@@ -208,16 +240,16 @@ function AnswerPage() {
   }, [loading, totalQuestions, questions.length])
 
   const handleDeleteAllQuestions = async () => {
-    Promise.all(questions.map(question => deleteQuestion(question.id)))
+    Promise.all(questions.map((question) => deleteQuestion(question.id)))
       .then(() => {
-        setQuestions([]);
-        alert('모든 질문을 삭제했습니다.');
+        setQuestions([])
+        alert('모든 질문을 삭제했습니다.')
       })
-      .catch(error => {
-        console.error('질문 삭제에 오류가 일어났습니다:', error);
-        alert('질문 삭제를 실패했습니다');
-      });
-  };
+      .catch((error) => {
+        console.error('질문 삭제에 오류가 일어났습니다:', error)
+        alert('질문 삭제를 실패했습니다')
+      })
+  }
 
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error: {error}</p>
@@ -235,16 +267,16 @@ function AnswerPage() {
       </Header>
       <Body>
         <DeleteButtonContainer>
-          <DeleteAllButton onClick={handleDeleteAllQuestions}/>
+          <DeleteAllButton onClick={handleDeleteAllQuestions} />
         </DeleteButtonContainer>
         <QuestionsContainer>
           <QuestionCount>
             <MessageIcon />
-            {subject.questionCount}개의 질문이 있습니다.
+            {totalQuestions}개의 질문이 있습니다.
           </QuestionCount>
           {questions.length ? (
             questions.map((question, index) => {
-              const key = `${question.id}_${index}` // 고유한 키 생성 (안 하고 qusetion.id로 key 설정하면 로드될때 warning 겁나 뜸)
+              const key = `${question.id}__${index}` // 고유한 키 생성 (안 하고 qusetion.id로 key 설정하면 로드될때 warning 겁나 뜸)
               if (questions.length === index + 1) {
                 return (
                   <div ref={lastQuestionElementRef} key={key}>
@@ -252,6 +284,7 @@ function AnswerPage() {
                       key={question.id}
                       subject={subject}
                       question={question}
+                      setNeedRefresh={setNeedRefresh}
                     />
                   </div>
                 )
@@ -261,6 +294,7 @@ function AnswerPage() {
                     key={question.id}
                     subject={subject}
                     question={question}
+                    setNeedRefresh={setNeedRefresh}
                   />
                 )
               }

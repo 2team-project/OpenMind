@@ -4,7 +4,7 @@ import ModalSecondLine from './components/ModalSecondLine'
 import InputTextForm from '../../components/InputTextForm'
 import media, { size } from '/src/utils/media'
 import { createQuestion } from '../../utils/apiUtils'
-import { isRequired } from '../../utils/validationUtils'
+import { useState } from 'react'
 const ModalPage = styled.div`
   position: absolute;
   display: flex;
@@ -40,9 +40,21 @@ const Margin = styled.div`
   height: 1.5rem;
 `
 
-function Modal({ onClose, subject }) {
+function Modal({ onClose, subject, updateQuestions }) {
+  const [loading, setLoading] = useState(false)
+
   async function onSubmit(text) {
-    await createQuestion(subject?.id, text)
+    setLoading(true)
+    try {
+      await createQuestion(subject?.id, text)
+      updateQuestions() // 질문 보내고 나서 questions 업데이트 요청
+      onClose() // 모달 닫기
+    } catch (error) {
+      console.error('질문 보내기 실패:', error)
+      // 오류 처리
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -55,8 +67,9 @@ function Modal({ onClose, subject }) {
         <Margin />
         <InputTextForm
           placeholder="질문을 입력해주세요"
-          buttonText="질문 보내기"
+          buttonText={loading ? '전송 중...' : '질문 보내기'}
           onSubmit={onSubmit}
+          disabled={loading}
         />
       </ModalBox>
     </ModalPage>

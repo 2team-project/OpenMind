@@ -74,7 +74,7 @@ function SubjectProfile({
   return (
     <AnswerContainer>
       <StyledProfile
-        src={subject ? subject.imageSource : '/path/to/default/image.jpg'}
+        src={subject ? subject.imageSource : '/images/temporaryProfile.png'}
       />
       <StyledDiv>
         <StyledUserName>
@@ -97,12 +97,8 @@ function FeedCardAnswer({
   subject,
   question,
   isAnswerPage = false,
-  editing,
-  setEditing,
+  editing = false,
 }) {
-  const [answerContent, setAnswerContent] = useState(
-    question.answer?.content || ''
-  )
   const [isRejected, setIsRejected] = useState(false)
   const [isAnswered, setIsAnswered] = useState(false)
   const [answer, setAnswer] = useState(null)
@@ -145,10 +141,7 @@ function FeedCardAnswer({
             <InputTextForm
               placeholder="답변을 입력해주세요"
               buttonText="수정 완료"
-              value={answerContent}
-              onSubmit={(text) => {
-                editButtonOnClick(text)
-              }}
+              onSubmit={editButtonOnClick}
             />
           </SubjectProfile>
         </StyledAnswer>
@@ -194,9 +187,7 @@ function FeedCardAnswer({
             <InputTextForm
               placeholder="답변을 입력해주세요"
               buttonText="답변 완료"
-              onSubmit={(text) => {
-                answerButtonOnClick(text)
-              }}
+              onSubmit={answerButtonOnClick}
             />
           </SubjectProfile>
         </StyledAnswer>

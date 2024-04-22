@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom'
 import { getId, getQuestions } from '../../utils/apiUtils'
 import * as S from './PostPageStyled'
 import ButtonFloating from '../../components/ButtonFloating'
+import Modal from '../modal/Modal'
 
 function PostPage() {
   const { id } = useParams()
@@ -14,6 +15,7 @@ function PostPage() {
   const [error, setError] = useState(null)
   const [page, setPage] = useState(1) // 페이지 수
   const [hasMore, setHasMore] = useState(true) // 추가 데이터가 있는지 여부 없으면 스크롤 멈춤
+  const [isModalOpen, setIsModalOpen] = useState(false) //모달 창 표시 여부
 
   const observer = useRef(null)
   const lastQuestionElementRef = useRef(null)
@@ -80,6 +82,11 @@ function PostPage() {
     return <p>해당 id의 정보가 없습니다.</p>
   }
 
+  //모달 창 표시 및 비표시 제어
+  const switchModalOpen = () => {
+    setIsModalOpen((prevState) => !prevState)
+  }
+
   return (
     <S.PageContainer>
       <S.Logo />
@@ -102,10 +109,11 @@ function PostPage() {
           }
         })}
         {loading && <p>로딩중...</p>}
-        <S.FloatingButtonWrapper>
+        <S.FloatingButtonWrapper onClick={switchModalOpen}>
           <ButtonFloating />
         </S.FloatingButtonWrapper>
       </S.QuestionsContainer>
+      {isModalOpen && <Modal onClose={switchModalOpen} subject={subject} />}
     </S.PageContainer>
   )
 }

@@ -37,6 +37,8 @@ function LoginForm() {
         throw new Error('API 요청이 실패했습니다.')
       }
       const data = await response.json()
+      //로컬 스토리지에 id저장
+      localStorage.setItem('postId', data.id)
 
       window.location.href = `/post/${data.id}/answer` // 페이지 이동
     } catch (error) {

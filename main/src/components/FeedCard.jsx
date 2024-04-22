@@ -7,9 +7,11 @@ import FeedCardAnswer from './FeedCardAnswer'
 import Badge from './Badge'
 import ReactionLike from './ReactionLike'
 import ReactionHate from './ReactionHate'
+import kebabImg from '/public/icons/more.svg'
+import { getAnswer } from '../utils/apiUtils'
 import DropdownForAnswer from '../pages/answer/DropDownForAnswer'
 
-const StyledDiv = styled.div`
+export const StyledDiv = styled.div`
   display: flex;
   width: 100%;
   height: auto;

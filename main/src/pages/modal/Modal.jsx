@@ -23,7 +23,7 @@ const ModalBackground = styled.div`
 `
 const ModalBox = styled.div`
   background-color: white;
-  position: absolute;
+  position: fixed;
   display: flex;
   flex-direction: column;
   width: 90%;

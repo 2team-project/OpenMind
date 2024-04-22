@@ -2,6 +2,7 @@ import InputFeild from '../../components/InputFeild'
 import ButtonQuestion from '../../components/ButtonQuestion'
 import styled from 'styled-components'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const Container = styled.div`
   background-color: white;
@@ -16,6 +17,7 @@ const Container = styled.div`
 `
 function LoginForm() {
   const [inputValue, setInputValue] = useState(``)
+  const navigate = useNavigate()
 
   const handleInputValueChange = (newValue) => {
     setInputValue(newValue)
@@ -37,10 +39,9 @@ function LoginForm() {
         throw new Error('API 요청이 실패했습니다.')
       }
       const data = await response.json()
+      navigate(`/post/${data.id}/answer`)
       //로컬 스토리지에 id저장
       localStorage.setItem('postId', data.id)
-
-      window.location.href = `/post/${data.id}/answer` // 페이지 이동
     } catch (error) {
       console.error('API 오류:', error)
     }

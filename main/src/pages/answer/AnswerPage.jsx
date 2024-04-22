@@ -138,6 +138,9 @@ function AnswerPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
+  //새로고침에 필요한 상태입니다. setNeedRefresh((prevValue) => prevValue + 1) 하여 사용하세요.
+  const [needRefresh, setNeedRefresh] = useState(1)
+
   useEffect(() => {
     async function loadSubject() {
       try {
@@ -164,9 +167,10 @@ function AnswerPage() {
     const storedId = localStorage.getItem('postId')
 
     if (id) {
+      setLoading(true)
       loadSubject()
     }
-  }, [id])
+  }, [id, needRefresh])
 
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error: {error}</p>
@@ -197,6 +201,7 @@ function AnswerPage() {
                 key={question.id}
                 subject={subject}
                 question={question}
+                setNeedRefresh={setNeedRefresh}
               />
             ))
           ) : (

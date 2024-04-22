@@ -46,7 +46,7 @@ const StyledReactionLine = styled.div`
 
 // subject : 답변자의 정보/ getId의 결과값을 넣어주세요.
 // question : 질문 목록 배열의 한 질문(객체)만 넣어주세요.
-function FeedCard({ subject, question }) {
+function FeedCard({ subject, question, setNeedRefresh }) {
   const [editing, setEditing] = useState(false)
   const [isAnswerPage, setIsAnswerPage] = useState(false)
 
@@ -73,8 +73,10 @@ function FeedCard({ subject, question }) {
   const handleReject = async () => {
     if (isAnswered) {
       await updateAnswer(question.answer.id, '거절된 질문입니다', true)
+      await setNeedRefresh((prevValue) => prevValue + 1)
     } else {
       await createAnswer(question.id, '거절된 질문입니다', true)
+      await setNeedRefresh((prevValue) => prevValue + 1)
     }
     console.log('거절 동작')
   }
@@ -93,6 +95,7 @@ function FeedCard({ subject, question }) {
         subject={subject}
         question={question}
         editing={editing}
+        setNeedRefresh={setNeedRefresh}
       />
       <StyledReactionLine>
         <ReactionLike question={question} />

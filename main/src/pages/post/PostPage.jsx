@@ -1,11 +1,12 @@
 import ButtonShare from '../../components/ButtonShare'
 import FeedCard from '../../components/FeedCard'
 import React, { useEffect, useState, useRef } from 'react'
-import { useParams } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router-dom'
 import { getId, getQuestions } from '../../utils/apiUtils'
 import * as S from './PostPageStyled'
 import ButtonFloating from '../../components/ButtonFloating'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
+import { useNavigate } from 'react-router-dom'
 
 // 질문 리스트의 마지막 요소 스타일 설정
 const StyledFeedCardWrapper = styled.div`
@@ -20,13 +21,16 @@ function PostPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [page, setPage] = useState(1) // 페이지 수
-  const [hasMore, setHasMore] = useState(true) // 추가 데이터가 있는지 여부 없으면 스크롤 멈춤
-  const limit = 8 //한 페이지에 보여줄 질문 개수
   const [totalQuestions, setTotalQuestions] = useState(0) // 전체 질문 개수
   const [isModalOpen, setIsModalOpen] = useState(false) //모달 창 표시 여부
 
   const observer = useRef(null)
   const lastQuestionElementRef = useRef(null)
+
+  const navigate = useNavigate()
+  const goToHome = () => {
+    navigate('/')
+  }
 
   useEffect(() => {
     async function loadSubject() {
@@ -101,7 +105,7 @@ function PostPage() {
 
   return (
     <S.PageContainer>
-      <S.Logo />
+      <S.Logo onClick={goToHome} />
       <S.ProfileContainer>
         <S.ProfileImage src={subject.imageSource} />
         <S.ProfileName>{subject.name}</S.ProfileName>

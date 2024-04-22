@@ -115,8 +115,9 @@ export const getSubjects = async ({ limit, offset, sort }) => {
 }
 
 // 질문 목록을 조회하는 API 함수 (subjectID필요)
-export const getQuestions = async (subjectId) => {
-  const url = `${BASE_URL}/subjects/${subjectId}/questions/`
+export const getQuestions = async (subjectId, page, limit = 8) => {
+  const offset = (page - 1) * limit // 오프셋 계산
+  const url = `${BASE_URL}/subjects/${subjectId}/questions/?offset=${offset}&limit=${limit}`
   const response = await fetch(url, {
     method: 'GET',
     headers: getHeaders(),

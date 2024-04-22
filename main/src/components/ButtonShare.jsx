@@ -54,7 +54,6 @@ function ButtonShare({ setToastMessage }) {
   const hanldeLinkShare = () => {
     navigator.clipboard.writeText(window.location.href)
     setToastMessage('URL을 복사했습니다.')
-    // alert('URL을 복사했습니다.')
   }
 
   const handleFacebookShare = () => {

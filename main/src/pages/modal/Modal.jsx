@@ -56,9 +56,8 @@ function Modal({ onClose, subject, setNeedRefresh }) {
         <Margin />
         <InputTextForm
           placeholder="질문을 입력해주세요"
-          buttonText={loading ? '전송 중...' : '질문 보내기'}
+          buttonText="질문 보내기"
           onSubmit={onSubmit}
-          disabled={loading}
         />
       </ModalBox>
     </ModalPage>

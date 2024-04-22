@@ -8,7 +8,6 @@ import ButtonFloating from '../../components/ButtonFloating'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 import ToastMessage from '../../components/ToastMessage'
-import { createQuestion } from '../../utils/apiUtils'
 
 // 질문 리스트의 마지막 요소 스타일 설정
 const StyledFeedCardWrapper = styled.div`
@@ -162,16 +161,7 @@ function PostPage() {
   const switchModalOpen = () => {
     setIsModalOpen((prevState) => !prevState)
   }
-  const updateQuestions = async () => {
-    try {
-      const response = await getQuestions(id, 1) // 페이지는 항상 1부터 시작
-      setQuestions(response.results)
-      setTotalQuestions(response.count)
-    } catch (err) {
-      console.error('질문 목록 업데이트 실패: ', err)
-      setError('질문목록 업데이트 실패')
-    }
-  }
+
   return (
     <S.PageContainer>
       <S.Logo onClick={goToHome} />

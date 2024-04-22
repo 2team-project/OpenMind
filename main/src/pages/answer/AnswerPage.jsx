@@ -12,6 +12,7 @@ import {
   getQuestionDetails,
 } from '../../utils/apiUtils'
 import FeedCard from '../../components/FeedCard'
+import ToastMessage from '../../components/ToastMessage'
 
 const PageContainer = styled.div`
   display: flex;
@@ -145,6 +146,7 @@ function AnswerPage() {
   const [page, setPage] = useState(1) // 페이지 수
   const [totalQuestions, setTotalQuestions] = useState(0) // 전체 질문 개수
   const [needRefresh, setNeedRefresh] = useState(null) //리렌더링 필요시 값을 변경시켜서 사용
+  const [toastMessage, setToastMessage] = useState('')
 
   const observer = useRef(null)
   const lastQuestionElementRef = useRef(null)
@@ -251,6 +253,17 @@ function AnswerPage() {
       })
   }
 
+  useEffect(() => {
+    if (toastMessage) {
+      // 토스트 메시지가 존재할 경우 3초 후에 메시지를 지웁니다.
+      const timer = setTimeout(() => {
+        setToastMessage('')
+      }, 3000)
+
+      return () => clearTimeout(timer)
+    }
+  }, [toastMessage])
+
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error: {error}</p>
   if (!subject) {
@@ -263,7 +276,7 @@ function AnswerPage() {
       <Header>
         <ProfileImage src={subject.imageSource} />
         <ProfileName>{subject.name}</ProfileName>
-        <ButtonShare />
+        <ButtonShare setToastMessage={setToastMessage} />
       </Header>
       <Body>
         <DeleteButtonContainer>
@@ -304,6 +317,7 @@ function AnswerPage() {
           )}
         </QuestionsContainer>
       </Body>
+      {toastMessage && <ToastMessage message={toastMessage} />}
     </PageContainer>
   )
 }

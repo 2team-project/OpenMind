@@ -34,7 +34,7 @@ const ButtonFacebook = styled(Button)`
   background-color: var(--blue50);
 `
 
-function ButtonShare() {
+function ButtonShare({ setToastMessage }) {
   const thisURL = window.location.href
   const openMindURL = ''
   const title = '오픈마인드'
@@ -53,7 +53,7 @@ function ButtonShare() {
 
   const hanldeLinkShare = () => {
     navigator.clipboard.writeText(window.location.href)
-    alert('URL을 복사했습니다.')
+    setToastMessage('URL을 복사했습니다.')
   }
 
   const handleFacebookShare = () => {

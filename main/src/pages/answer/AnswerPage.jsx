@@ -5,7 +5,7 @@ import media, { size } from '../../utils/media'
 import ButtonShare from '../../components/ButtonShare'
 import DeleteAllButton from './DeleteAllButton'
 import { ReactComponent as MessagesIcon } from '../../../public/icons/messages.svg'
-import { getId, getQuestions } from '../../utils/apiUtils'
+import { getId, getQuestions, deleteQuestion } from '../../utils/apiUtils'
 import FeedCard from '../../components/FeedCard'
 
 const PageContainer = styled.div`
@@ -162,11 +162,22 @@ function AnswerPage() {
     }
     //로컬 스토리지에 저장된 id불러오기
     const storedId = localStorage.getItem('postId')
-
     if (id) {
       loadSubject()
     }
   }, [id])
+
+  const handleDeleteAllQuestions = async () => {
+    Promise.all(questions.map(question => deleteQuestion(question.id)))
+      .then(() => {
+        setQuestions([]);
+        alert('모든 질문을 삭제했습니다.');
+      })
+      .catch(error => {
+        console.error('질문 삭제에 오류가 일어났습니다:', error);
+        alert('질문 삭제를 실패했습니다');
+      });
+  };
 
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error: {error}</p>
@@ -184,7 +195,7 @@ function AnswerPage() {
       </Header>
       <Body>
         <DeleteButtonContainer>
-          <DeleteAllButton />
+          <DeleteAllButton onClick={handleDeleteAllQuestions}/>
         </DeleteButtonContainer>
         <QuestionsContainer>
           <QuestionCount>

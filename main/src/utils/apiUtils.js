@@ -47,7 +47,7 @@ export const deleteQuestion = async (id) => {
     method: 'DELETE',
     headers: getHeaders(),
   })
-  return handleApiError(response)
+  return response.status === 204
 }
 
 // 답변을 조회하는 API 함수

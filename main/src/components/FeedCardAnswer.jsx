@@ -119,15 +119,15 @@ function FeedCardAnswer({
   // 수정하기 버튼 동작
   const editButtonOnClick = async (content) => {
     console.log(content)
-    await updateAnswer(answer.id, content, false)
-    setNeedRefresh((prevValue) => prevValue + 1)
+    const $answer = await updateAnswer(answer.id, content, false)
+    setNeedRefresh($answer)
   }
 
   // 답변하기 버튼 동작
   const answerButtonOnClick = async (content) => {
     console.log(content)
-    await createAnswer(question.id, content, false)
-    setNeedRefresh((prevValue) => prevValue + 1)
+    const $answer = await createAnswer(question.id, content, false)
+    setNeedRefresh($answer)
   }
 
   // 답변을 한 경우

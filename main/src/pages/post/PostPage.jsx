@@ -185,7 +185,13 @@ function PostPage() {
       <StyledFloatingButtonWrapper onClick={switchModalOpen}>
         <ButtonFloating />
       </StyledFloatingButtonWrapper>
-      {isModalOpen && <Modal onClose={switchModalOpen} subject={subject} />}
+      {isModalOpen && (
+        <Modal
+          onClose={switchModalOpen}
+          subject={subject}
+          setNeedRefresh={setNeedRefresh}
+        />
+      )}
     </S.PageContainer>
   )
 }

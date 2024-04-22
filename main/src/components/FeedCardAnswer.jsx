@@ -5,38 +5,59 @@ import getElapsedTime from '../utils/getElapsedTime'
 import media, { size } from '../utils/media'
 import { createAnswer, updateAnswer } from '../utils/apiUtils'
 
+const AnswerContainer = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  align-self: stretch;
+  width: 15.4375rem;
+  ${media(size.tablet)`
+    width: 38rem;
+  `}
+`
 const StyledAnswer = styled.div`
   display: flex;
   flex-flow: row;
 `
 const StyledProfile = styled.img`
   display: flex;
-  flex-flow: row;
   width: 2rem;
   height: 2rem;
   margin-right: 0.5rem;
   border-radius: 999px;
   ${media(size.tablet)`
    width: 3rem;
-   height: 3rem; `}
+   height: 3rem; 
+  `}
 `
 const StyledDiv = styled.div`
   display: flex;
-  flex-flow: column;
-  flex-grow: 1;
-  gap: 0.5rem;
+  flex-direction: column;
+  width: 100%;
+  align-items: flex-start;
+  gap: 0.25rem;
+  flex: 1 0 0;
 `
 const StyledUserName = styled.div`
+  color: var(--Grayscale-60, #000);
   display: flex;
   align-items: center;
-  font-size: 1rem;
+  font-family: Actor;
+  font-size: 0.875rem;
+  line-height: 1.125rem;
   ${media(size.tablet)`
-    font-size: 1.5rem; `}
+    font-size: 1.125rem;
+    line-height: 1.5rem;
+  `}
 `
 const StyledDate = styled.span`
   color: var(--grayScale40);
   margin-left: 0.5rem;
-  font-size: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.125rem;
+  ${media(size.tablet)`
+    font-size: 0.875rem;
+  `}
 `
 const RejectDiv = styled.div`
   color: var(--red50);
@@ -51,7 +72,7 @@ function SubjectProfile({
   children,
 }) {
   return (
-    <>
+    <AnswerContainer>
       <StyledProfile
         src={subject ? subject.imageSource : '/path/to/default/image.jpg'}
       />
@@ -64,7 +85,7 @@ function SubjectProfile({
         </StyledUserName>
         {children}
       </StyledDiv>
-    </>
+    </AnswerContainer>
   )
 }
 
@@ -76,9 +97,12 @@ function FeedCardAnswer({
   subject,
   question,
   isAnswerPage = false,
-  editing = false,
+  editing,
+  setEditing,
 }) {
-  const [answerContent, setAnswerContent] = useState(null)
+  const [answerContent, setAnswerContent] = useState(
+    question.answer?.content || ''
+  )
   const [isRejected, setIsRejected] = useState(false)
   const [isAnswered, setIsAnswered] = useState(false)
   const [answer, setAnswer] = useState(null)
@@ -121,6 +145,7 @@ function FeedCardAnswer({
               placeholder="답변을 입력해주세요"
               buttonText="수정 완료"
               value={answerContent}
+              onChange={(e) => setAnswerContent(e.target.value)}
               onSubmit={(e) => setAnswerContent(e.target.value)}
               action={editButtonOnClick}
             />

@@ -70,6 +70,7 @@ export const QuestionsContainer = styled.div`
     width: 44rem;  
     border: 1px solid var(--Brown-30, #C7BBB5);
   `}
+  margin-top:1rem
 `
 
 export const NoQuestion_text = styled.div`
@@ -81,15 +82,15 @@ export const NoQuestion = styled.div`
   padding: 1rem;
   align-items: center;
   background-color: var(--brown10);
-  height: 20rem;
+  height: 9rem;
   flex-direction: column;
   border-radius: 1rem;
   background-image: url('../../images/noItemImg.png');
   background-repeat: no-repeat;
   background-position: center;
-  border: 1px solid var(--brown20);
   margin-top: 2rem;
   margin-bottom: 5rem;
+  width: 100%;
 `
 export const FloatingButtonWrapper = styled.div`
   position: absolute;

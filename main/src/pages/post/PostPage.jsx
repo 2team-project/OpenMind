@@ -5,9 +5,12 @@ import { useParams } from 'react-router-dom'
 import { getId, getQuestions } from '../../utils/apiUtils'
 import * as S from './PostPageStyled'
 import ButtonFloating from '../../components/ButtonFloating'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
-const QuestionCard = styled(FeedCard)``
+// 질문 리스트의 마지막 요소 스타일 설정
+const StyledFeedCardWrapper = styled.div`
+  width: 100%;
+`
 
 function PostPage() {
   const { id } = useParams()
@@ -17,6 +20,8 @@ function PostPage() {
   const [error, setError] = useState(null)
   const [page, setPage] = useState(1) // 페이지 수
   const [hasMore, setHasMore] = useState(true) // 추가 데이터가 있는지 여부 없으면 스크롤 멈춤
+  const limit = 8 //한 페이지에 보여줄 질문 개수
+  const [totalQuestions, setTotalQuestions] = useState(0) // 전체 질문 개수
 
   const observer = useRef(null)
   const lastQuestionElementRef = useRef(null)
@@ -30,28 +35,34 @@ function PostPage() {
         console.error('회원 정보를 불러오는 데 실패:', error)
         setError('회원 정보를 불러오는 데 실패했습니다.')
       }
-      try {
-        const subjectId = id
-        const response = await getQuestions(subjectId, page)
-        const newQuestions = response.results
-        setQuestions((prevQuestions) => [...prevQuestions, ...newQuestions])
-        setHasMore(newQuestions.length > 0)
-      } catch (error) {
-        console.error('질문 목록을 불러오는 데 실패:', error)
-        setError('질문 목록을 불러오지 못하였습니다.')
-      } finally {
-        setLoading(false)
-      }
     }
 
     if (id) {
       loadSubject()
     }
+  }, [id])
+
+  useEffect(() => {
+    async function loadQuestions() {
+      try {
+        const response = await getQuestions(id, page)
+        const newQuestions = response.results
+        setQuestions((prevQuestions) => [...prevQuestions, ...newQuestions])
+        setTotalQuestions(response.count)
+      } catch (err) {
+        console.error('질문 목록 실패: ', err)
+        setError('질문목록 불러오기 실패')
+      } finally {
+        setLoading(false)
+      }
+    }
+    if (id) {
+      loadQuestions()
+    }
   }, [id, page])
 
-  // page 상태 변경 시 새로운 데이터 로드
   useEffect(() => {
-    if (!loading && hasMore) {
+    if (!loading && totalQuestions > questions.length) {
       const options = {
         root: null,
         rootMargin: '20px',
@@ -59,7 +70,6 @@ function PostPage() {
       }
 
       observer.current = new IntersectionObserver((entries) => {
-        // 끝에 도달햇을 때 새로운 데이터 로드
         if (entries[0].isIntersecting) {
           setPage((prevPage) => prevPage + 1)
         }
@@ -68,16 +78,15 @@ function PostPage() {
       if (lastQuestionElementRef.current) {
         observer.current.observe(lastQuestionElementRef.current)
       }
-    }
 
-    return () => {
-      if (observer.current) {
-        observer.current.disconnect()
+      return () => {
+        if (observer.current) {
+          observer.current.disconnect()
+        }
       }
     }
-  }, [loading, hasMore])
+  }, [loading, totalQuestions, questions.length])
 
-  // if (loading && page === 1) return <p>Loading...</p>
   if (error) return <p>Error: {error}</p>
   if (!subject) {
     return <p>해당 id의 정보가 없습니다.</p>
@@ -101,9 +110,9 @@ function PostPage() {
             const key = `${question.id}_${index}` // 고유한 키 생성 (안 하고 qusetion.id로 key 설정하면 로드될때 warning 겁나 뜸)
             if (questions.length === index + 1) {
               return (
-                <div ref={lastQuestionElementRef} key={key}>
+                <StyledFeedCardWrapper ref={lastQuestionElementRef} key={key}>
                   <FeedCard subject={subject} question={question} />
-                </div>
+                </StyledFeedCardWrapper>
               )
             } else {
               return (
@@ -112,21 +121,8 @@ function PostPage() {
             }
           })
         ) : (
-          <p>답변된 질문이 없습니다.</p>
+          <S.NoQuestion></S.NoQuestion>
         )}
-        {/* 
-        {questions.map((question, index) => {
-          const key = `${question.id}_${index}` // 고유한 키 생성 (안 하고 qusetion.id로 key 설정하면 로드될때 warning 겁나 뜸)
-          if (questions.length === index + 1) {
-            return (
-              <div ref={lastQuestionElementRef} key={key}>
-                <FeedCard subject={subject} question={question} />
-              </div>
-            )
-          } else {
-            return <FeedCard key={key} subject={subject} question={question} />
-          }
-        })} */}
         {loading && <p>로딩중...</p>}
 
         <S.FloatingButtonWrapper>

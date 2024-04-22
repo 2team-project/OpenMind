@@ -1,7 +1,7 @@
 import ButtonShare from '../../components/ButtonShare'
 import FeedCard from '../../components/FeedCard'
 import React, { useEffect, useState, useRef } from 'react'
-import { Navigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { getId, getQuestions } from '../../utils/apiUtils'
 import * as S from './PostPageStyled'
 import ButtonFloating from '../../components/ButtonFloating'

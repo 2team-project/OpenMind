@@ -29,6 +29,17 @@ export const createAnswer = async (questionId, content, isRejected) => {
   return handleApiError(response)
 }
 
+// 답변을 수정하는 API 함수
+export const updateAnswer = async (answerId, content, isRejected) => {
+  const url = `${BASE_URL}/answers/${answerId}/`
+  const response = await fetch(url, {
+    method: 'PUT',
+    headers: getHeaders(),
+    body: JSON.stringify({ content, isRejected }),
+  })
+  return handleApiError(response)
+}
+
 // 질문을 삭제하는 API 함수
 export const deleteQuestion = async (id) => {
   const url = `${BASE_URL}/questions/${id}/`
@@ -36,7 +47,7 @@ export const deleteQuestion = async (id) => {
     method: 'DELETE',
     headers: getHeaders(),
   })
-  return handleApiError(response)
+  return response.status === 204
 }
 
 // 답변을 조회하는 API 함수
@@ -45,17 +56,6 @@ export const getAnswer = async (answerId) => {
   const response = await fetch(url, {
     method: 'GET',
     headers: getHeaders(),
-  })
-  return handleApiError(response)
-}
-
-// 답변을 수정하는 API 함수
-export const updateAnswer = async (answerId, content, isRejected) => {
-  const url = `${BASE_URL}/answers/${answerId}/`
-  const response = await fetch(url, {
-    method: 'PUT',
-    headers: getHeaders(),
-    body: JSON.stringify({ content, isRejected }),
   })
   return handleApiError(response)
 }

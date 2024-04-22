@@ -12,6 +12,13 @@ import { useNavigate } from 'react-router-dom'
 const StyledFeedCardWrapper = styled.div`
   width: 100%;
 `
+const StyledFloatingButtonWrapper = styled.div`
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 1000;
+`
+
 import Modal from '../modal/Modal'
 
 function PostPage() {
@@ -174,18 +181,11 @@ function PostPage() {
           <S.NoQuestion></S.NoQuestion>
         )}
         {loading && <p>로딩중...</p>}
-
-        <S.FloatingButtonWrapper onClick={switchModalOpen}>
-          <ButtonFloating />
-        </S.FloatingButtonWrapper>
       </S.QuestionsContainer>
-      {isModalOpen && (
-        <Modal
-          onClose={switchModalOpen}
-          subject={subject}
-          setNeedRefresh={setNeedRefresh}
-        />
-      )}
+      <StyledFloatingButtonWrapper onClick={switchModalOpen}>
+        <ButtonFloating />
+      </StyledFloatingButtonWrapper>
+      {isModalOpen && <Modal onClose={switchModalOpen} subject={subject} />}
     </S.PageContainer>
   )
 }

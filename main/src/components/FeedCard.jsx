@@ -48,14 +48,22 @@ const StyledReactionLine = styled.div`
 // question : 질문 목록 배열의 한 질문(객체)만 넣어주세요.
 function FeedCard({ subject, question }) {
   const [editing, setEditing] = useState(false)
+  const [isAnswerPage, setIsAnswerPage] = useState(false)
+
+  //페이지 URL이 ... /post/{postId}/answer페이지라면 isAnswerPage가 true가 됩니다.
   const location = useLocation()
-  const pathname = location.pathname
-  const postId = pathname.split('/post/')[1]
-  const isAnswerPage =
-    pathname.startsWith('/post/') && postId && postId.includes('/answer')
+  function pageState() {
+    const pathname = location.pathname
+    const postId = pathname.split('/post/')[1]
+    setIsAnswerPage(
+      pathname.startsWith('/post/') && postId && postId.includes('/answer')
+    )
+  }
+  useEffect(() => {
+    pageState()
+  }, [location])
 
   const isAnswered = question.answer !== null
-  const answer = question.answer ?? null
 
   const handleEdit = () => {
     setEditing(true)
@@ -80,7 +88,6 @@ function FeedCard({ subject, question }) {
         subject={subject}
         question={question}
         editing={editing}
-        setEditing={setEditing}
       />
       <StyledReactionLine>
         <ReactionLike question={question} />

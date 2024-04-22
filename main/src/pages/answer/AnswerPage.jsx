@@ -160,6 +160,8 @@ function AnswerPage() {
         setLoading(false)
       }
     }
+    //로컬 스토리지에 저장된 id불러오기
+    const storedId = localStorage.getItem('postId')
 
     if (id) {
       loadSubject()

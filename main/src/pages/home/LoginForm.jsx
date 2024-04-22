@@ -40,6 +40,8 @@ function LoginForm() {
       }
       const data = await response.json()
       navigate(`/post/${data.id}/answer`)
+      //로컬 스토리지에 id저장
+      localStorage.setItem('postId', data.id)
     } catch (error) {
       console.error('API 오류:', error)
     }

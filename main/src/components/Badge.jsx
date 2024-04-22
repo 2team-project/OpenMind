@@ -2,10 +2,10 @@ import styled, { css } from 'styled-components'
 
 // 조건부 스타일링을 담당하는 함수
 const getBadgeStyles = (props) => {
-  const { isAnswered } = props
+  const { $isAnswered } = props
   return css`
-    color: ${isAnswered ? 'var(--brown40)' : 'var(--grayScale40)'};
-    border-color: ${isAnswered ? 'var(--brown40)' : 'var(--grayScale40)'};
+    color: ${$isAnswered ? 'var(--brown40)' : 'var(--grayScale40)'};
+    border-color: ${$isAnswered ? 'var(--brown40)' : 'var(--grayScale40)'};
   `
 }
 

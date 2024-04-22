@@ -115,12 +115,13 @@ function FeedCardAnswer({
     }
   }, [isAnswered, answer?.isRejected])
 
-  //수정하기 버튼 동작
+  // 수정하기 버튼 동작
   const editButtonOnClick = async (content) => {
     console.log(content)
     await updateAnswer(answer.id, content, isRejected)
   }
-  //답변하기 버튼 동작
+
+  // 답변하기 버튼 동작
   const answerButtonOnClick = async (content) => {
     console.log(content)
     await createAnswer(question.id, content, isRejected)

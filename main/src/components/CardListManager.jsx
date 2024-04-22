@@ -4,7 +4,6 @@ import DropDownButton from './DropDownButton'
 import PagenationButton from './PagenationButton'
 import * as S from './listStyled'
 import { getSubjects } from '../utils/apiUtils'
-import { getCards } from '../utils/getCard'
 
 function CardListManager() {
   const [items, setItems] = useState([])
@@ -16,9 +15,9 @@ function CardListManager() {
   const [prevPage, setPrevPage] = useState(null)
   const [cardListWidth, setCardListWidth] = useState(0)
 
-  const handleLoad = async (options) => {
+  const handleLoad = async (option) => {
     try {
-      const Cards = await getSubjects(options)
+      const Cards = await getSubjects(option)
       setItems(Cards.results)
       setUserCount(Cards.count)
       setNextPage(Cards.next)

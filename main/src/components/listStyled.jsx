@@ -6,6 +6,8 @@ import ArrowDownImg from '../../public/icons/arrowDown.svg'
 export const Container = styled.div`
   position: relative;
   height: 100%;
+  background-size: contain;
+  background-color: var(--grayScale20);
 `
 
 export const ListText = styled.h1`

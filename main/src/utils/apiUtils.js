@@ -104,9 +104,9 @@ export const createQuestion = async (subjectId, content) => {
 }
 
 // 답변자들의 목록(등록된 답변자들 총 숫자, 및 표시할 답변자들의 정보_이름,id,이미지 등)을 조회하는 API 함수
-export const getSubjects = async (limit, offset, sort) => {
+export const getSubjects = async ({ limit, offset, sort }) => {
   const queryParams = new URLSearchParams({ limit, offset, sort }).toString()
-  const url = `${BASE_URL}/subjects/?${queryParams}/`
+  const url = `${BASE_URL}/subjects/?${queryParams}`
   const response = await fetch(url, {
     method: 'GET',
     headers: getHeaders(),

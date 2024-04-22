@@ -97,12 +97,8 @@ function FeedCardAnswer({
   subject,
   question,
   isAnswerPage = false,
-  editing,
-  setEditing,
+  editing = false,
 }) {
-  const [answerContent, setAnswerContent] = useState(
-    question.answer?.content || ''
-  )
   const [isRejected, setIsRejected] = useState(false)
   const [isAnswered, setIsAnswered] = useState(false)
   const [answer, setAnswer] = useState(null)
@@ -122,7 +118,7 @@ function FeedCardAnswer({
   //수정하기 버튼 동작
   const editButtonOnClick = async (content) => {
     console.log(content)
-    await updateAnswer(question.id, content, isRejected)
+    await updateAnswer(answer.id, content, isRejected)
   }
   //답변하기 버튼 동작
   const answerButtonOnClick = async (content) => {
@@ -144,10 +140,7 @@ function FeedCardAnswer({
             <InputTextForm
               placeholder="답변을 입력해주세요"
               buttonText="수정 완료"
-              value={answerContent}
-              onChange={(e) => setAnswerContent(e.target.value)}
-              onSubmit={(e) => setAnswerContent(e.target.value)}
-              action={editButtonOnClick}
+              onSubmit={editButtonOnClick}
             />
           </SubjectProfile>
         </StyledAnswer>
@@ -193,9 +186,7 @@ function FeedCardAnswer({
             <InputTextForm
               placeholder="답변을 입력해주세요"
               buttonText="답변 완료"
-              onSubmit={(text) => {
-                answerButtonOnClick(text)
-              }}
+              onSubmit={answerButtonOnClick}
             />
           </SubjectProfile>
         </StyledAnswer>

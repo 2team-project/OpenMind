@@ -3,6 +3,8 @@ import ModalFirstLine from './components/ModalFirstLine'
 import ModalSecondLine from './components/ModalSecondLine'
 import InputTextForm from '../../components/InputTextForm'
 import media, { size } from '/src/utils/media'
+import { useState } from 'react'
+import { createQuestion } from '../../utils/apiUtils'
 const ModalPage = styled.div`
   position: absolute;
   display: flex;
@@ -38,7 +40,14 @@ const Margin = styled.div`
   height: 1.5rem;
 `
 
-function Modal({ onClose }) {
+function Modal({ onClose, subject }) {
+  const [content, setContent] = useState('')
+  function onSubmit(text) {
+    setContent(text)
+    const subjectId = subject?.id
+    createQuestion(subjectId, content)
+  }
+
   return (
     <ModalPage>
       <ModalBackground onClick={onClose}></ModalBackground>
@@ -48,8 +57,9 @@ function Modal({ onClose }) {
         <ModalSecondLine />
         <Margin />
         <InputTextForm
-          placeholder={'질문을 입력해주세요'}
+          placeholder="질문을 입력해주세요"
           buttonText="질문 보내기"
+          onSubmit={onSubmit}
         />
       </ModalBox>
     </ModalPage>

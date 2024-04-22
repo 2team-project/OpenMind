@@ -20,10 +20,10 @@ const StyledDiv = styled.div`
   ${getBadgeStyles}// 조건부 스타일을 적용하는 함수 호출
 `
 
-function Badge({ isAnswered = false }) {
+function Badge({ $isAnswered = false }) {
   return (
-    <StyledDiv isAnswered={isAnswered}>
-      {isAnswered ? '답변 완료' : '미답변'}
+    <StyledDiv $isAnswered={$isAnswered}>
+      {$isAnswered ? '답변 완료' : '미답변'}
     </StyledDiv>
   )
 }

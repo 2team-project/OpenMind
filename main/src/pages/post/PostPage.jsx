@@ -7,6 +7,7 @@ import * as S from './PostPageStyled'
 import ButtonFloating from '../../components/ButtonFloating'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
+import ToastMessage from '../../components/ToastMessage'
 
 // 질문 리스트의 마지막 요소 스타일 설정
 const StyledFeedCardWrapper = styled.div`
@@ -30,6 +31,7 @@ function PostPage() {
   const [page, setPage] = useState(1) // 페이지 수
   const [totalQuestions, setTotalQuestions] = useState(0) // 전체 질문 개수
   const [isModalOpen, setIsModalOpen] = useState(false) //모달 창 표시 여부
+  const [toastMessage, setToastMessage] = useState('')
 
   const observer = useRef(null)
   const lastQuestionElementRef = useRef(null)
@@ -100,6 +102,17 @@ function PostPage() {
     }
   }, [loading, totalQuestions, questions.length])
 
+  useEffect(() => {
+    if (toastMessage) {
+      // 토스트 메시지가 존재할 경우 3초 후에 메시지를 지웁니다.
+      const timer = setTimeout(() => {
+        setToastMessage('')
+      }, 3000)
+
+      return () => clearTimeout(timer)
+    }
+  }, [toastMessage])
+
   if (error) return <p>Error: {error}</p>
   if (!subject) {
     return <p>해당 id의 정보가 없습니다.</p>
@@ -116,7 +129,7 @@ function PostPage() {
       <S.ProfileContainer>
         <S.ProfileImage src={subject.imageSource} />
         <S.ProfileName>{subject.name}</S.ProfileName>
-        <ButtonShare />
+        <ButtonShare setToastMessage={setToastMessage} />
       </S.ProfileContainer>
       <S.QuestionsContainer>
         <S.QuestionCount>
@@ -147,6 +160,8 @@ function PostPage() {
         <ButtonFloating />
       </StyledFloatingButtonWrapper>
       {isModalOpen && <Modal onClose={switchModalOpen} subject={subject} />}
+      {toastMessage && <ToastMessage message={toastMessage} />}{' '}
+      {/* 토스트 메시지 표시 */}
     </S.PageContainer>
   )
 }

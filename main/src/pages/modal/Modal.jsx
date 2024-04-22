@@ -51,7 +51,7 @@ function Modal({ onClose, subject }) {
       <ModalBox onClick={(e) => e.stopPropagation()}>
         <ModalFirstLine onClose={onClose} />
         <Margin />
-        <ModalSecondLine />
+        <ModalSecondLine subject={subject} />
         <Margin />
         <InputTextForm
           placeholder="질문을 입력해주세요"

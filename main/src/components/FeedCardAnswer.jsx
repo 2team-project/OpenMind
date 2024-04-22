@@ -74,7 +74,7 @@ function SubjectProfile({
   return (
     <AnswerContainer>
       <StyledProfile
-        src={subject ? subject.imageSource : '/path/to/default/image.jpg'}
+        src={subject ? subject.imageSource : '/images/temporaryProfile.png'}
       />
       <StyledDiv>
         <StyledUserName>

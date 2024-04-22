@@ -63,7 +63,7 @@ function FeedCard({ subject, question, setNeedRefresh }) {
     pageState()
   }, [location])
 
-  const isAnswered = question.answer !== null
+  const $isAnswered = question.answer !== null
 
   const handleEdit = () => {
     setEditing(true)
@@ -71,7 +71,7 @@ function FeedCard({ subject, question, setNeedRefresh }) {
   }
 
   const handleReject = async () => {
-    if (isAnswered) {
+    if ($isAnswered) {
       const answer = await updateAnswer(
         question.answer.id,
         '거절된 질문입니다',
@@ -88,7 +88,7 @@ function FeedCard({ subject, question, setNeedRefresh }) {
   return (
     <StyledDiv>
       <StyledMenubar>
-        <Badge isAnswered={isAnswered} />
+        <Badge $isAnswered={$isAnswered} />
         {isAnswerPage && (
           <DropdownForAnswer onEdit={handleEdit} onReject={handleReject} />
         )}

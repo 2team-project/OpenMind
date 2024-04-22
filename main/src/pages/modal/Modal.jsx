@@ -4,7 +4,6 @@ import ModalSecondLine from './components/ModalSecondLine'
 import InputTextForm from '../../components/InputTextForm'
 import media, { size } from '/src/utils/media'
 import { createQuestion } from '../../utils/apiUtils'
-import { isRequired } from '../../utils/validationUtils'
 const ModalPage = styled.div`
   position: absolute;
   display: flex;
@@ -40,9 +39,11 @@ const Margin = styled.div`
   height: 1.5rem;
 `
 
-function Modal({ onClose, subject }) {
+function Modal({ onClose, subject, setNeedRefresh }) {
   async function onSubmit(text) {
-    await createQuestion(subject?.id, text)
+    const response = await createQuestion(subject?.id, text)
+    setNeedRefresh(response)
+    onClose()
   }
 
   return (

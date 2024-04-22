@@ -3,16 +3,10 @@ import { useParams, Link } from 'react-router-dom'
 import styled from 'styled-components'
 import media, { size } from '../../utils/media'
 import ButtonShare from '../../components/ButtonShare'
-<<<<<<< HEAD
-import ButtonFloating from '../../components/ButtonFloating'
-=======
 import DeleteAllButton from './DeleteAllButton'
->>>>>>> develop
 import { ReactComponent as MessagesIcon } from '../../../public/icons/messages.svg'
 import { getId, getQuestions } from '../../utils/apiUtils'
 import FeedCard from '../../components/FeedCard'
-
-import { Link } from 'react-router-dom'
 
 const PageContainer = styled.div`
   display: flex;
@@ -123,21 +117,12 @@ const QuestionCount = styled.p`
   align-items: center;
   gap: 0.5rem;
   color: var(--Brown-40, #542f1a);
-<<<<<<< HEAD
-  font-feature-settings:
-    'clig' off,
-    'liga' off;
-=======
->>>>>>> develop
   font-family: Actor;
   font-size: 1.125rem;
   font-style: normal;
   font-weight: 400;
   line-height: 1.5rem;
   height: 1.5rem;
-<<<<<<< HEAD
-`
-=======
   ${media(size.tablet)`
   font-size: 1.25rem;
   line-height: 1.5625rem;
@@ -145,7 +130,6 @@ const QuestionCount = styled.p`
 `
 
 const QuestionCard = styled(FeedCard)``
->>>>>>> develop
 
 function AnswerPage() {
   const { id } = useParams()
@@ -197,36 +181,6 @@ function AnswerPage() {
         <ProfileImage src={subject.imageSource} />
         <ProfileName>{subject.name}</ProfileName>
         <ButtonShare />
-<<<<<<< HEAD
-      </ProfileContainer>
-      <DeleteButton
-        label="삭제"
-        width="4.375rem"
-        height="1.5625rem"
-        fontSize="0.625rem"
-        widthTablet="6.25rem"
-        heightTablet="2.1875rem"
-        fontSizeTablet="0.9375rem"
-        afterContent="하기"
-      />
-      <Link to="/list">
-        {/* 질문하러가기 버튼 누르면 list페이지로 이동 */}
-        <button>질문하러가기 버튼</button>
-      </Link>
-      <QuestionsContainer>
-        <QuestionCount>
-          <MessagesIcon style={{ height: '1.375rem', width: '1.375rem' }} />
-          {subject.questionCount} 개의 질문이 있습니다.
-        </QuestionCount>
-        {questions.length ? (
-          questions.map((question) => (
-            <FeedCard key={question.id} subject={subject} question={question} />
-          ))
-        ) : (
-          <p>답변된 질문이 없습니다.</p>
-        )}
-      </QuestionsContainer>
-=======
       </Header>
       <Body>
         <DeleteButtonContainer>
@@ -250,7 +204,6 @@ function AnswerPage() {
           )}
         </QuestionsContainer>
       </Body>
->>>>>>> develop
     </PageContainer>
   )
 }

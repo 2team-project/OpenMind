@@ -3,8 +3,8 @@ import ModalFirstLine from './components/ModalFirstLine'
 import ModalSecondLine from './components/ModalSecondLine'
 import InputTextForm from '../../components/InputTextForm'
 import media, { size } from '/src/utils/media'
-import { useState } from 'react'
 import { createQuestion } from '../../utils/apiUtils'
+import { isRequired } from '../../utils/validationUtils'
 const ModalPage = styled.div`
   position: absolute;
   display: flex;
@@ -41,11 +41,8 @@ const Margin = styled.div`
 `
 
 function Modal({ onClose, subject }) {
-  const [content, setContent] = useState('')
-  function onSubmit(text) {
-    setContent(text)
-    const subjectId = subject?.id
-    createQuestion(subjectId, content)
+  async function onSubmit(text) {
+    await createQuestion(subject?.id, text)
   }
 
   return (

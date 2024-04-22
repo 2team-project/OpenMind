@@ -94,7 +94,7 @@ export const createSubject = async (name) => {
 
 // 질문을 생성하는 API 함수
 export const createQuestion = async (subjectId, content) => {
-  const url = `${BASE_URL}/subjects/{subjectId}/questions/`
+  const url = `${BASE_URL}/subjects/${subjectId}/questions/`
   const response = await fetch(url, {
     method: 'POST',
     headers: getHeaders(),

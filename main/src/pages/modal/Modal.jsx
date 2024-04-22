@@ -3,6 +3,8 @@ import ModalFirstLine from './components/ModalFirstLine'
 import ModalSecondLine from './components/ModalSecondLine'
 import InputTextForm from '../../components/InputTextForm'
 import media, { size } from '/src/utils/media'
+import { createQuestion } from '../../utils/apiUtils'
+import { isRequired } from '../../utils/validationUtils'
 const ModalPage = styled.div`
   position: absolute;
   display: flex;
@@ -38,18 +40,23 @@ const Margin = styled.div`
   height: 1.5rem;
 `
 
-function Modal({ onClose }) {
+function Modal({ onClose, subject }) {
+  async function onSubmit(text) {
+    await createQuestion(subject?.id, text)
+  }
+
   return (
     <ModalPage>
       <ModalBackground onClick={onClose}></ModalBackground>
       <ModalBox onClick={(e) => e.stopPropagation()}>
         <ModalFirstLine onClose={onClose} />
         <Margin />
-        <ModalSecondLine />
+        <ModalSecondLine subject={subject} />
         <Margin />
         <InputTextForm
-          placeholder={'질문을 입력해주세요'}
+          placeholder="질문을 입력해주세요"
           buttonText="질문 보내기"
+          onSubmit={onSubmit}
         />
       </ModalBox>
     </ModalPage>

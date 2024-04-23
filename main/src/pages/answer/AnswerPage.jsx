@@ -246,6 +246,7 @@ function AnswerPage() {
       .then(() => {
         setQuestions([])
         alert('모든 질문을 삭제했습니다.')
+        setTotalQuestions(0)
       })
       .catch((error) => {
         console.error('질문 삭제에 오류가 일어났습니다:', error)

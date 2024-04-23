@@ -29,6 +29,17 @@ export const createAnswer = async (questionId, content, isRejected) => {
   return handleApiError(response)
 }
 
+// 답변을 수정하는 API 함수
+export const updateAnswer = async (answerId, content, isRejected) => {
+  const url = `${BASE_URL}/answers/${answerId}/`
+  const response = await fetch(url, {
+    method: 'PUT',
+    headers: getHeaders(),
+    body: JSON.stringify({ content, isRejected }),
+  })
+  return handleApiError(response)
+}
+
 // 질문을 삭제하는 API 함수
 export const deleteQuestion = async (id) => {
   const url = `${BASE_URL}/questions/${id}/`
@@ -36,7 +47,7 @@ export const deleteQuestion = async (id) => {
     method: 'DELETE',
     headers: getHeaders(),
   })
-  return handleApiError(response)
+  return response.status === 204
 }
 
 // 답변을 조회하는 API 함수
@@ -45,17 +56,6 @@ export const getAnswer = async (answerId) => {
   const response = await fetch(url, {
     method: 'GET',
     headers: getHeaders(),
-  })
-  return handleApiError(response)
-}
-
-// 답변을 수정하는 API 함수
-export const updateAnswer = async (answerId, content, isRejected) => {
-  const url = `${BASE_URL}/answers/${answerId}/`
-  const response = await fetch(url, {
-    method: 'PUT',
-    headers: getHeaders(),
-    body: JSON.stringify({ content, isRejected }),
   })
   return handleApiError(response)
 }
@@ -94,7 +94,7 @@ export const createSubject = async (name) => {
 
 // 질문을 생성하는 API 함수
 export const createQuestion = async (subjectId, content) => {
-  const url = `${BASE_URL}/subjects/{subjectId}/questions/`
+  const url = `${BASE_URL}/subjects/${subjectId}/questions/`
   const response = await fetch(url, {
     method: 'POST',
     headers: getHeaders(),
@@ -115,8 +115,9 @@ export const getSubjects = async ({ limit, offset, sort }) => {
 }
 
 // 질문 목록을 조회하는 API 함수 (subjectID필요)
-export const getQuestions = async (subjectId) => {
-  const url = `${BASE_URL}/subjects/${subjectId}/questions/`
+export const getQuestions = async (subjectId, page, limit = 8) => {
+  const offset = (page - 1) * limit // 오프셋 계산
+  const url = `${BASE_URL}/subjects/${subjectId}/questions/?offset=${offset}&limit=${limit}`
   const response = await fetch(url, {
     method: 'GET',
     headers: getHeaders(),

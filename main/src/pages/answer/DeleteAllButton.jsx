@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import media, { size } from '../../utils/media'
 
-const DeleteAllButton = styled.button`
+const StyledDeleteButton = styled.button`
   width: 4.375rem;
   height: 1.5625rem;
   color: var(--Grayscale-10, #fff);
@@ -21,16 +21,19 @@ const DeleteAllButton = styled.button`
   align-items: center;
   justify-content: center;
 
-  &:after {
-    content: '삭제하기';
-    font-size: inherit;
-  }
-
   ${media(size.tablet)` 
     width: 6.25rem;
     height: 2.1875rem;
     font-size: 0.9375rem;
   `}
 `
+
+const DeleteAllButton = ({ onClick }) => {
+  return (
+    <StyledDeleteButton onClick={onClick}>
+      삭제하기
+    </StyledDeleteButton>
+  );
+};
 
 export default DeleteAllButton

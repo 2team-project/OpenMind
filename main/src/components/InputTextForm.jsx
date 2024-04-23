@@ -57,7 +57,8 @@ const SendButton = styled.button`
 
 //placeholder에 input의 입력 전 기본값,
 //buttonText는 버튼에 들어갈 문구.
-//onSubmit은 text를 받아서 부모요소에서 실행될 함수
+//onSubmit함수는 prop으로 전달받습니다. ex) onSubmit={buttonOnClickHandler}
+//const buttonOnClickHandler = (text) => { 여기서 text를 사용할 수 있습니다. }
 function InputTextForm({
   placeholder = '질문을 입력해주세요',
   buttonText = '답변 완료',
@@ -76,8 +77,6 @@ function InputTextForm({
     } else {
       console.warn('답변이 비어있습니다')
     }
-    //onSubmit함수는 prop으로 전달받습니다. onSubmit={(text) => {answerButtonOnClick(text)}}
-    //answerButtonOnClick 이 핸들러에서 text를 전달받아 사용할 수 있습니다.
   }
   const buttonColor = isRequired(text) ? 'var(--brown40)' : 'var(--brown30)'
 

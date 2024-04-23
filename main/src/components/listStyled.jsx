@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import media, { size } from '../utils/media'
-import ArrowUpImg from '../../public/icons/arrowUp.svg'
-import ArrowDownImg from '../../public/icons/arrowDown.svg'
+import ArrowUpImg from '../../public/images/arrowUp.png'
+import ArrowDownImg from '../../public/images/arrowDown.png'
 
 export const Container = styled.div`
   position: relative;
@@ -76,9 +76,6 @@ export const ArrowIcon = styled.span`
   background-image: url(${({ $show }) =>
     $show === 'true' ? ArrowUpImg : ArrowDownImg});
   background-size: cover;
-  path {
-    fill: ${({ $show }) => ($show === 'true' ? '#000' : 'currentColor')};
-  }
 `
 
 export const CardItem = styled.div`

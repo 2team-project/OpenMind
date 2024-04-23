@@ -74,7 +74,7 @@ function SubjectProfile({
   return (
     <AnswerContainer>
       <StyledProfile
-        src={subject ? subject.imageSource : '/path/to/default/image.jpg'}
+        src={subject ? subject.imageSource : '/images/temporaryProfile.png'}
       />
       <StyledDiv>
         <StyledUserName>
@@ -97,12 +97,9 @@ function FeedCardAnswer({
   subject,
   question,
   isAnswerPage = false,
-  editing,
-  setEditing,
+  editing = false,
+  setNeedRefresh,
 }) {
-  const [answerContent, setAnswerContent] = useState(
-    question.answer?.content || ''
-  )
   const [isRejected, setIsRejected] = useState(false)
   const [isAnswered, setIsAnswered] = useState(false)
   const [answer, setAnswer] = useState(null)
@@ -119,15 +116,18 @@ function FeedCardAnswer({
     }
   }, [isAnswered, answer?.isRejected])
 
-  //수정하기 버튼 동작
+  // 수정하기 버튼 동작
   const editButtonOnClick = async (content) => {
     console.log(content)
-    await updateAnswer(question.id, content, isRejected)
+    const $answer = await updateAnswer(answer.id, content, false)
+    setNeedRefresh($answer)
   }
-  //답변하기 버튼 동작
+
+  // 답변하기 버튼 동작
   const answerButtonOnClick = async (content) => {
     console.log(content)
-    await createAnswer(question.id, content, isRejected)
+    const $answer = await createAnswer(question.id, content, false)
+    setNeedRefresh($answer)
   }
 
   // 답변을 한 경우
@@ -144,10 +144,7 @@ function FeedCardAnswer({
             <InputTextForm
               placeholder="답변을 입력해주세요"
               buttonText="수정 완료"
-              value={answerContent}
-              onChange={(e) => setAnswerContent(e.target.value)}
-              onSubmit={(e) => setAnswerContent(e.target.value)}
-              action={editButtonOnClick}
+              onSubmit={editButtonOnClick}
             />
           </SubjectProfile>
         </StyledAnswer>
@@ -193,9 +190,7 @@ function FeedCardAnswer({
             <InputTextForm
               placeholder="답변을 입력해주세요"
               buttonText="답변 완료"
-              onSubmit={(text) => {
-                answerButtonOnClick(text)
-              }}
+              onSubmit={answerButtonOnClick}
             />
           </SubjectProfile>
         </StyledAnswer>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import * as S from '../../components/listStyled'
-import MoreIcon from '../../../public/icons/more.svg'
+import MoreIcon from '/icons/more.svg'
 
 function DropdownForAnswer({ onEdit, onReject }) {
   const [showDropdown, setShowDropdown] = useState(false)

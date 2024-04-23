@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import media, { size } from '../../utils/media'
 import ButtonShare from '../../components/ButtonShare'
 import DeleteAllButton from './DeleteAllButton'
-import { ReactComponent as MessagesIcon } from '../../../public/icons/messages.svg'
+import { ReactComponent as MessagesIcon } from '/icons/messages.svg'
 import {
   getId,
   getQuestions,
@@ -26,7 +26,7 @@ const PageContainer = styled.div`
 `
 
 const Logo = styled(Link)`
-  background-image: url('../../../public/images/logo.png');
+  background-image: url('/images/logo.png');
   width: 7.75rem;
   height: 3.0625rem;
   background-repeat: no-repeat;

@@ -1,5 +1,5 @@
-import close from '../../../../public/icons/close.svg'
-import messages from '../../../../public/icons/messages.svg'
+import close from '/icons/close.svg'
+import messages from '/icons/messages.svg'
 import styled from 'styled-components'
 import media, { size } from '/src/utils/media'
 

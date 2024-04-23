@@ -36,7 +36,7 @@ const ButtonFacebook = styled(Button)`
 
 function ButtonShare({ setToastMessage }) {
   const thisURL = window.location.href
-  const openMindURL = ''
+  const openMindURL = 'https://openmind5-2.netlify.app/'
   const title = '오픈마인드'
 
   useEffect(() => {

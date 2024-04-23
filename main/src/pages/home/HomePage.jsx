@@ -32,7 +32,7 @@ const Logo = styled.a`
   margin-top: 5rem;
 
   ${media(size.tablet)`
-    width: 28rem;
+    width: 30rem;
     height: 11.25rem;
     margin-top: 10rem;
   `}

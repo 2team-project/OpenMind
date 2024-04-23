@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import LogoImg from '/images/logo.png'
+import LogoImg from '../../../public/images/logo.png'
 
 const LogoImage = styled.img`
   width: 146px;

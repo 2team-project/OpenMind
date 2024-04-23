@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import media, { size } from '../../utils/media'
-import { ReactComponent as MessagesIcon } from '/icons/messages.svg'
+import { ReactComponent as MessagesIcon } from '../../../public/icons/messages.svg'
 
 export const PageContainer = styled.div`
   display: flex;
